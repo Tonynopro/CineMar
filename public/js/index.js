@@ -1,0 +1,162 @@
+// ==================== SLIDER DE PROMOCIONES ====================
+const slides = [
+  {
+    image: "../images/promos/promoOmar.jpg",
+    title: "¡LA VENIDA DE OMAR!",
+    description: "Lo más esperado por los fans de Omar.",
+    actionText: "Próximamente...",
+    link: "#promo1"
+  },
+  {
+    image: "../images/promos/promoHector.jpg",
+    title: "OMG ES HECTOR",
+    description: "¡No te lo puedes perder!",
+    actionText: "Realmente el botón no hace nada",
+    link: "#promo2"
+  },
+  {
+    image: "../images/promos/promoFansOmar.jpg",
+    title: "SI SON LOS FANS DE OMAR",
+    description: "¡SI TE LO PUEDES PERDER!",
+    actionText: "Realmente el botón sigue sin hacer nada",
+    link: "#promo3"
+  },
+  {
+    image: "../images/promos/omarVsSinicoPromo.jpg",
+    title: "¡OMAR VS SINICO!",
+    description: "Finalmente se enfrentan en la pantalla grande.",
+    actionText: "Sigue la historia",
+    link: "#promo4"
+  }
+];
+
+let currentSlide = 0;
+let slideInterval;
+
+// Elementos del slider
+const slideImage = document.querySelector(".imgSlide img");
+const slideTitle = document.querySelector(".titleSlide");
+const slideDesc = document.querySelector(".descSlide");
+const slideAction = document.querySelector(".actionSlide");
+
+// Inicializa el slider
+function renderSlide(index) {
+  const slide = slides[index];
+
+  // Añadimos transición de desvanecimiento suave y deslizar
+  slideImage.classList.add("fade-out");
+  slideImage.classList.add("slide-in"); // Agregamos la animación de deslizamiento lateral
+  setTimeout(() => {
+    slideImage.src = slide.image;
+    slideTitle.textContent = slide.title;
+    slideTitle.setAttribute('title', slide.title.trim());
+    slideDesc.textContent = slide.description;
+    slideAction.textContent = slide.actionText;
+    slideAction.href = slide.link;
+    slideImage.classList.remove("fade-out");
+    slideImage.classList.remove("slide-in"); // Eliminamos la clase de animación
+  }, 300); // Tiempo para completar el desvanecimiento
+}
+
+function startSlideInterval() {
+  slideInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    renderSlide(currentSlide);
+  }, 10000); // Intervalo entre cambios de slide
+}
+
+document.querySelector(".prev").addEventListener("click", () => {
+  clearInterval(slideInterval); // Detener el intervalo al cambiar de slide
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  renderSlide(currentSlide);
+  startSlideInterval(); // Reiniciar el intervalo
+});
+
+document.querySelector(".next").addEventListener("click", () => {
+  clearInterval(slideInterval); // Detener el intervalo al cambiar de slide
+  currentSlide = (currentSlide + 1) % slides.length;
+  renderSlide(currentSlide);
+  startSlideInterval(); // Reiniciar el intervalo
+});
+
+// Iniciar intervalo al cargar la página
+startSlideInterval();
+renderSlide(currentSlide);
+
+
+
+// ==================== PELÍCULAS DINÁMICAS ====================
+const moviesContainer = document.querySelector(".movies-container");
+const searchInput = document.getElementById("movieSearch");
+//const genreFilter = document.getElementById("genreFilter");
+
+// Función para cargar las películas desde el backend
+async function loadMovies() {
+  try {
+    const response = await fetch('/peliculasCartelera');
+    const data = await response.json();
+
+    console.log(data);
+    function renderMovies(filteredMovies) {
+      moviesContainer.innerHTML = "";
+
+
+      filteredMovies.forEach(movie => {
+        const image = "../images/peliculas/" + movie.imagen;
+        const movieDiv = document.createElement("div");
+        movieDiv.classList.add("movie");
+
+        movieDiv.innerHTML = `
+          <a href="/info?id=${movie.ID_pelicula}" class="imageMovie">
+            <img src="${image}" alt="${movie.titulo}">
+          </a>
+          <div class="infoMovie">
+            <div class="clasificacion">${movie.clasificacion}</div>
+            <div class="nameMovie">${movie.titulo}</div>
+            <div class="duracion">${movie.duracion_min} min</div>
+          </div>
+        `;
+
+        // Animación al pasar el mouse sobre la película
+        movieDiv.addEventListener("mouseenter", () => {
+          movieDiv.style.transform = "scale(1.05)";
+          movieDiv.style.transition = "transform 0.3s ease-in-out";
+        });
+
+        movieDiv.addEventListener("mouseleave", () => {
+          movieDiv.style.transform = "scale(1)";
+        });
+
+        moviesContainer.appendChild(movieDiv);
+      });
+    }
+
+    function applyFilters() {
+      const searchTerm = searchInput.value.toLowerCase();
+      //const selectedGenre = genreFilter.value;
+
+      const filtered = data.peliculas.filter(movie => {
+        const matchesName = movie.titulo.toLowerCase().includes(searchTerm);
+        //const matchesGenre = selectedGenre === "" || movie.genero === selectedGenre;
+        return matchesName /*&& matchesGenre*/;
+      });
+
+      // Agregamos un efecto de fade-in al renderizar las películas
+      moviesContainer.classList.add("fade");
+      void moviesContainer.offsetWidth; // Reflow
+      moviesContainer.classList.remove("fade");
+
+      renderMovies(filtered);
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    //genreFilter.addEventListener("change", applyFilters);
+
+    renderMovies(data.peliculas); // Renderiza todas las películas
+  } catch (error) {
+    console.error('Error al cargar las películas:', error);
+  }
+}
+
+// Llama la función para cargar películas al inicio
+loadMovies();

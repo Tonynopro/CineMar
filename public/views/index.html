@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMar</title>
+    <link rel="stylesheet" href="css/background-main.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/main-page.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+
+<body>
+    <header>
+        <div class="left">
+            <div class="logo">
+                <a href="/">
+                    <img src="../images/icons/cinemarIcono.png" alt="CineMar">
+                </a>
+            </div>
+        </div>
+        <div class="center">
+            <div class="optHead active"><a href="/">Inicio</a></div>
+            <div class="optHead"><a href="/promociones">Promociones</a></div>
+        </div>
+        <div class="right">
+            <div class="selectCine">
+                <label for="cine">Cine:</label>
+                <select id="cine">
+                    <option>Santa Elena</option>
+                </select>
+            </div>
+            <div class="userIcon">
+                <div class="userIcon" id="userIcon">
+                    <img src="../images/icons/userIcon.png" alt="Usuario">
+                    <div class="userMenu" id="userMenu">
+                      <!-- Este contenido se actualizará dinámicamente con JS -->
+                    </div>
+                  </div>
+                  
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <!-- Slider -->
+        <div class="slider-container">
+            <button class="prev">&#10094;</button>
+            <div class="slider">
+                <div class="slide">
+                    <a href="#" class="imgSlide">
+                        <img src="" alt="Promocional">
+                    </a>
+                    <div class="infoSlide">
+                        <div class="titleSlide">AQUI IRA EL TITULO</div>
+                        <div class="descSlide">Aqui todo lo relacionado</div>
+                        <button class="actionSlide">Aqui lo que debe de hacer</button>
+                    </div>
+                </div>
+            </div>
+            <button class="next">&#10095;</button>
+        </div>
+
+        <!-- Cartelera -->
+        <div class="movies" id="cartelera">
+            <div class="topMovies">
+                <p>CARTELERA</p>
+            </div>
+            <div class="search-filter">
+                <input type="text" id="movieSearch" placeholder="Buscar películas..." class="search-box">
+                <!-- <select id="genreFilter" class="filter-box">
+                    <option value="">Selecciona un género</option>
+                    <option value="accion">Acción</option>
+                    <option value="comedia">Comedia</option>
+                    <option value="drama">Drama</option>
+                    <option value="terror">Terror</option>-->
+                </select>
+            </div>
+            <div class="movies-container">
+                <div class="movie">
+                    <a href="#" class="imageMovie">
+                        <img src="" alt="Película">
+                    </a>
+                    <div class="infoMovie">
+                        <div class="clasificacion">C</div>
+                        <div class="nameMovie">Nombre de la película</div>
+                        <div class="duracion">114 min</div>
+                    </div>
+                </div>
+                <!-- Puedes añadir más divs de películas de forma similar -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>Sobre CineMar</h4>
+                <ul>
+                    <li><a href="/nuestraHistoria">Nuestra historia</a></li>
+                    <li><a href="/#cartelera">Cartelera</a></li>
+                    <li><a href="/promociones">Promociones</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Soporte</h4>
+                <ul>
+                    <li><a href="/preguntasFrecuentes">Preguntas frecuentes</a></li>
+                    <li><a href="/terminosUso">Términos de uso</a></li>
+                    <li><a href="/politicasPrivacidad">Política de privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contáctanos</h4>
+                <ul>
+                    <li><a href="tel:+5217831438595">Numero de contacto</a></li>
+                    <li><a href="/encuentraTuCine">Encuentra tu cine</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 CineMar. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <script src="../js/index.js"></script>
+    <script src="../js/header.js"></script>
+</body>
+
+</html>

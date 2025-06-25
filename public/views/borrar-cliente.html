@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Borrar Cliente</title>
+  <link rel="stylesheet" href="/css/sign-in.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+  <main>
+    <section class="form-container">
+      <h1>Borrar Cuenta</h1>
+      <hr />
+      <div id="confirmacion">
+        <p>¿Seguro que quieres borrarlo?</p>
+        <div class="botones-confirmacion">
+          <button id="btn-si">Sí</button>
+          <button class="secondary" id="btn-no">No</button>
+        </div>
+      </div>
+
+      <form id="deleteForm" style="display: none;">
+        <div class="password-container">
+          <input type="password" id="password" name="contraseña" placeholder="Confirma tu contraseña" class="eye-password" required maxlength="30" />
+          <i id="toggle-password" class="fas fa-eye"></i>
+        </div>
+        <div id="mensaje"></div>
+        <button type="submit">Borrar</button>
+      </form>
+
+      <button class="secondary" onclick="window.location.href='/'">Volver</button>
+    </section>
+  </main>
+
+  <script src="../js/passwordEye.js"></script>
+  <script type="module" src="../js/borrarCliente.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Trabajador</title>
+  <link rel="stylesheet" href="/css/sign-in.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <main>
+    <section class="form-container">
+            <button id="btn-volver" class="btn-volver" onclick="window.history.back();"><i class="fas fa-arrow-left"></i> Volver</button>
+
+      <h1>REGISTRO DE TRABAJADOR</h1>
+      <hr>
+      <form id="registroTrabajadorForm">
+        <input type="text" name="nombre" placeholder="Nombre" maxlength="30" class="onCar" required>
+        <input type="text" name="apellido" placeholder="Apellido" maxlength="30" class="onCar" required>
+        <input type="text" name="curp" placeholder="CURP" maxlength="18" required>
+
+        <p>Fecha de nacimiento</p>
+        <input type="date" name="fecha_nacimiento" required>
+
+        <p>Fecha de contratación</p>
+        <input type="date" name="fecha_contratacion" required>
+
+        <div class="password-container">
+          <input class="eye-password" id="contraseña" type="password" name="contraseña" placeholder="Contraseña" maxlength="30" required>
+          <i id="toggle-contraseña" class="fas fa-eye"></i>
+        </div>
+
+        <div class="password-container">
+          <input class="eye-password" id="verificar_contraseña" type="password" name="verificar_contraseña" maxlength="30" placeholder="Confirmar contraseña" required>
+          <i id="toggle-verificar_contraseña" class="fas fa-eye"></i>
+        </div>
+
+        <div id="mensaje"></div>
+
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="../js/registroTrabajador.js"></script>
+  <script src="../js/passwordEye.js"></script>
+</body>
+</html>

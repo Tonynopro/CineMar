@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vista de Sala</title>
+  <link rel="stylesheet" href="/css/asiento.css" />
+  <link rel="stylesheet" href="/css/listaFunciones.css" />
+</head>
+
+<body>
+  <div class="container">
+    <button class="back-button" onclick="window.history.back()">← Volver</button>
+    <h1>Vista de la Sala Asignada</h1>
+    
+    <div class="main-content">
+      <div class="function-list">
+        <h2>Funciones del Día</h2>
+        <ul id="function-list">
+          <!-- Las funciones se llenarán aquí -->
+        </ul>
+      </div>
+
+      <div class="seat-section">
+        <div class="screen">Pantalla</div>
+        <div id="seat-map" class="seat-map"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/vistaSala.js"></script>
+</body>
+
+
+</html>

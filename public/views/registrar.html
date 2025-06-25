@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cine - Registro</title>
+  <link rel="stylesheet" href="/css/sign-in.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Agregar Font Awesome -->
+</head>
+<body>
+  <main>
+    <section class="form-container">
+      <h1>REGISTRO</h1>
+      <hr>
+      <form id="registroForm">
+        <input type="text" name="nombre" class="onCar" placeholder="Nombre" maxlength="30" required>
+        <input type="text" name="apellido" class="onCar" placeholder="Apellido" maxlength="30" required>
+        <p>Selecciona tu fecha de nacimiento</p>
+        <input type="date" name="fecha_nacimiento" required>
+        <input type="email" name="correo" placeholder="Correo" maxlength="30" required>
+
+        <div class="password-container">
+          <input class="eye-password" id="contraseña" type="password" name="contraseña" placeholder="Contraseña" maxlength="30" required>
+          <i id="toggle-contraseña" class="fas fa-eye"></i> <!-- Icono para mostrar/ocultar contraseña -->
+        </div>
+
+        <div class="password-container">
+          <input class="eye-password" id="verificar_contraseña" type="password" name="verificar_contraseña" maxlength="30" placeholder="Verifica tu contraseña" required>
+          <i id="toggle-verificar_contraseña" class="fas fa-eye"></i> <!-- Icono para mostrar/ocultar contraseña -->
+        </div>
+
+        <div id="mensaje"></div>
+
+        <button type="submit">Guardar</button>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="../js/registroCliente.js"></script> 
+  <script src="../js/passwordEye.js"></script> 
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asignación de Turno</title>
+  <link rel="stylesheet" href="/css/sign-in.css">
+  
+</head>
+<body>
+
+  <main>
+    <section class="form-container">
+      <h1>ASIGNACIÓN DE TURNO</h1>
+            <button id="btn-volver" class="btn-volver" onclick="window.history.back();"><i class="fas fa-arrow-left"></i> Volver</button>
+
+      <hr>
+      <form id="form-turno">
+        <div class="form-group">
+          <label for="trabajador">Trabajador</label>
+          <select id="trabajador" required>
+            <!-- Aquí se van a insertar dinámicamente las opciones desde JS -->
+          </select>
+        </div>
+        
+
+        <p>Rol del trabajador</p>
+        <select id="rol" required>
+          <!-- Aquí se van a insertar dinámicamente las opciones desde JS -->
+        </select>
+
+        <p>Día del turno</p>
+        <input type="date" id="turno-dia" name="turno-dia" required>
+
+        <!-- Sección para el Encargado de Sala -->
+        <div id="datos-encargado" style="display:none;">
+          <p>Selecciona la sala</p>
+          <select id="sala" required>
+            <!-- Aquí se van a insertar dinámicamente las opciones desde JS -->
+          </select>
+        </div>
+
+        <div id="mensaje"></div>
+
+        <button type="submit">Guardar Turno</button>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="../js/asignarTurno.js" defer></script>
+</body>
+</html>

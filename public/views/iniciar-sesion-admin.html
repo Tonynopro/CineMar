@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio Admin</title>
+  <link rel="stylesheet" href="/css/sign-in.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <main>
+    <section class="form-container">
+      <h1>ADMINISTRADOR</h1>
+      <hr>
+      <form id="adminLoginForm">
+        <input type="text" id="adminId" name="id" placeholder="ID de Administrador" required maxlength="5">
+        
+        <div class="password-container">
+          <input class="eye-password" type="password" id="adminPassword" name="contraseña" placeholder="Contraseña" required maxlength="4">
+          <i id="toggle-admin-password" class="fas fa-eye"></i>
+        </div>
+
+        <div id="mensaje"></div>
+
+        <button type="submit">Entrar</button>
+      </form>
+
+      <button class="secondary">Volver</button>
+    </section>
+  </main>
+
+  <script src="../js/passwordEye.js"></script>
+  <script type="module" src="../js/ingresoAdmin.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* Estilos Generales */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1c1c1c;
+    color: #eaeaea;
+    line-height: 1.6;
+}
+
+/* Sección Nuestra Historia */
+.nuestra-historia {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #3333331e;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.nuestra-historia h1 {
+    font-size: 2.8rem;
+    color: #ff5722;
+    margin-bottom: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.nuestra-historia p {
+    font-size: 1.2rem;
+    color: #eaeaea;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: justify;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nuestra-historia p:nth-of-type(odd) {
+    background-color: #00bcd4;
+}
+
+.nuestra-historia p:nth-of-type(even) {
+    background-color: #ff5722;
+}
+
+.nuestra-historia p:last-of-type {
+    margin-bottom: 0;
+}
+
+.seccion-especial {
+    text-align: center;
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 800px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.seccion-especial img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .nuestra-historia h1 {
+        font-size: 2.3rem;
+    }
+
+    .nuestra-historia p {
+        font-size: 1rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}

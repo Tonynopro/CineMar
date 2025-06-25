@@ -1,0 +1,142 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e0e0e0;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+}
+
+.detalle-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #fff;
+}
+
+.poster-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.poster img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: contain;
+    background-color: #1b1b1b;
+}
+
+.info {
+    flex: 1;
+}
+
+.titulo {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+}
+
+.descripcion {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+.datos p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.btn-comprar {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #ff5722;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-comprar:hover {
+    background-color: #e64a19;
+}
+
+.actores h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.actores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+.actor {
+    background-color: #1b1b1b;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.actor img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.actor .nombre {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.actor .personaje {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .poster-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info {
+        text-align: center;
+    }
+
+    .titulo {
+        font-size: 2rem;
+    }
+}
+
+.actor {
+    background-color: #1b1b1b;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 200px;
+}
+
+.actor:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+    background-color: #8d3d25;
+}

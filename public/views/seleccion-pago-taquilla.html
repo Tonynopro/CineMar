@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pago</title>
+    <link rel="stylesheet" href="/css/pago.css">
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h1>Detalles del Pago</h1>
+        <div class="error" id="error-message">
+            Hubo un error al procesar tu pago. Por favor, intenta de nuevo.
+        </div>
+        <div class="success" id="success-message">
+            ¡Pago realizado con éxito!
+        </div>
+
+        <form action="pago" method="POST">
+            <div class="seats-info">
+                <h2>Boletos Seleccionados</h2>
+                <p>Película: <span id="movie-name">Avatar</span></p>
+                <p>Sala: <span id="sala-number">Sala 5</span></p>
+                <p>Asientos: <span id="seats-chosen">A1, A2</span></p>
+            </div>
+
+            <div class="price-details">
+                <div>
+                    <p>Subtotal:</p>
+                    <p>IVA:</p>
+                    <p><strong>Total:</strong></p>
+                </div>
+                <div>
+                    <p>$100.00</p>
+                    <p>$16.00</p>
+                    <p><strong>$116.00</strong></p>
+                </div>
+            </div>
+
+            <div class="coupon-checker">
+                <input type="text" id="coupon" name="coupon" placeholder="Código de cupón" maxlength="3" pattern="\d*"
+          inputmode="numeric">
+                <button type="button" id="verify-coupon">Verificar cupón</button>
+            </div>
+            <p id="coupon-status" class="coupon-status"></p>
+
+            <div class="coupon-checker">
+                <input type="text" id="user" name="user" placeholder="ID o correo del usuario" maxlength="50">
+                <button type="button" id="verify-user">Verificar Usuario</button>
+            </div>
+            <p id="user-status" class="coupon-status"></p>
+
+            <h2>Selecciona un método de pago</h2>
+            <div class="method-icons">
+                <div class="method-icons">
+                    <div class="select-wrapper">
+                        <select name="metodo_de_pago" id="metPago">
+                            <option value="efectivo">Efectivo</option>
+                            <option value="tarjeta">Tarjeta de Crédito</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="submit-payment">Pagar</button>
+        </form>
+
+    </div>
+
+    <script>
+        document.getElementById('coupon').addEventListener('input', function () {
+            // Reemplaza cualquier carácter no numérico en tiempo real
+            this.value = this.value.replace(/\D/g, '');
+        });
+    </script>
+    <script src="/js/pagoTaquilla.js"></script>
+</body>
+
+</html>

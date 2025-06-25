@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pago</title>
+  <link rel="stylesheet" href="/css/pago.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+
+<body>
+
+  <header>
+        <div class="left">
+            <div class="logo">
+                <a href="/">
+                    <img src="../images/icons/cinemarIcono.png" alt="CineMar">
+                </a>
+            </div>
+        </div>
+        <div class="center">
+            <div class="optHead active"><a href="/">Inicio</a></div>
+            <div class="optHead"><a href="/promociones">Promociones</a></div>
+        </div>
+        <div class="right">
+            <div class="selectCine">
+                <label for="cine">Cine:</label>
+                <select id="cine">
+                    <option>Santa Elena</option>
+                </select>
+            </div>
+            <div class="userIcon">
+                <div class="userIcon" id="userIcon">
+                    <img src="../images/icons/userIcon.png" alt="Usuario">
+                    <div class="userMenu" id="userMenu">
+                      <!-- Este contenido se actualizará dinámicamente con JS -->
+                    </div>
+                  </div>
+                  
+            </div>
+        </div>
+    </header>
+
+  <div class="form-container">
+    <h1>Detalles del Pago</h1>
+    <div class="error" id="error-message">
+      Hubo un error al procesar tu pago. Por favor, intenta de nuevo.
+    </div>
+    <div class="success" id="success-message">
+      ¡Pago realizado con éxito!
+    </div>
+
+    <form action="pago" method="POST">
+      <div class="seats-info">
+        <h2>Boletos Seleccionados</h2>
+        <p>Película: <span id="movie-name">Avatar</span></p>
+        <p>Sala: <span id="sala-number">Sala 5</span></p>
+        <p>Asientos: <span id="seats-chosen">A1, A2</span></p>
+      </div>
+
+      <div class="price-details">
+        <div>
+          <p>Subtotal:</p>
+          <p>IVA:</p>
+          <p><strong>Total:</strong></p>
+        </div>
+        <div>
+          <p>$100.00</p>
+          <p>$16.00</p>
+          <p><strong>$116.00</strong></p>
+        </div>
+      </div>
+
+      <div class="coupon-checker">
+        <input type="text" id="coupon" name="coupon" placeholder="Código de cupón" maxlength="3" pattern="\d*"
+          inputmode="numeric">
+        <button type="button" id="verify-coupon">Verificar cupón</button>
+      </div>
+      <p id="coupon-status" class="coupon-status"></p>
+
+      <h2>Selecciona un método de pago</h2>
+      <div class="method-icons">
+        <div class="method-icons">
+          <div class="select-wrapper">
+            <select name="metodo_de_pago" id="metPago">
+              <option value="tarjeta">Tarjeta de Crédito</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="submit-payment">Pagar</button>
+    </form>
+
+  </div>
+
+  <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>Sobre CineMar</h4>
+                <ul>
+                    <li><a href="/nuestraHistoria">Nuestra historia</a></li>
+                    <li><a href="/#cartelera">Cartelera</a></li>
+                    <li><a href="/promociones">Promociones</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Soporte</h4>
+                <ul>
+                    <li><a href="/preguntasFrecuentes">Preguntas frecuentes</a></li>
+                    <li><a href="/terminosUso">Términos de uso</a></li>
+                    <li><a href="/politicasPrivacidad">Política de privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contáctanos</h4>
+                <ul>
+                    <li><a href="tel:+5217831438595">Numero de contacto</a></li>
+                    <li><a href="/encuentraTuCine">Encuentra tu cine</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 CineMar. Todos los derechos reservados.
+        </div>
+    </footer>
+
+  <script>
+    document.getElementById('coupon').addEventListener('input', function () {
+      // Reemplaza cualquier carácter no numérico en tiempo real
+      this.value = this.value.replace(/\D/g, '');
+    });
+  </script>
+  <script src="../js/pago.js"></script>
+  <script src="../js/header.js"></script>
+</body>
+
+</html>

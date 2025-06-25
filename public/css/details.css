@@ -1,0 +1,107 @@
+/* Reset y fuente base */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0e0e0e;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.movie-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* Contenedor del formulario de inicio de sesión */
+.login-container {
+  background-color: #1b1b1b;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo para las etiquetas */
+label {
+  font-size: 1rem;
+  color: #bbb;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Estilo para los campos de entrada */
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #00bcd4;
+  outline: none;
+}
+
+/* Estilo para los botones */
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:not(.secondary) {
+  background-color: #00bcd4;
+  color: white;
+}
+
+button.secondary {
+  background-color: transparent;
+  color: #00bcd4;
+  border: 2px solid #00bcd4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-container {
+      width: 90%;
+  }
+
+  h1 {
+      font-size: 1.8rem;
+  }
+}

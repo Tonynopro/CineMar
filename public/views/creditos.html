@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Créditos Épicos</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .credits-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .credits {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        h1,
+        h2,
+        p {
+            margin: 0.5em 0;
+        }
+
+        .section {
+            margin: 2em 0;
+        }
+
+        img.credit-image {
+            max-width: 300px;
+            margin: 1em auto;
+            display: block;
+        }
+
+        /* Audio oculto */
+        audio#bg-music {
+            display: none;
+        }
+
+        #backBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 0.8em 1.5em;
+            font-size: 1rem;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            transition: background 0.3s;
+        }
+
+        #backBtn:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="credits-wrapper">
+        <div id="credits" class="credits"></div>
+    </div>
+
+    <button id="backBtn">Volver al inicio</button>
+
+    <!-- Audio oculto -->
+    <audio id="bg-music" autoplay>
+        <source src="../sounds/Homero.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <script>
+
+        const creditData = [
+            { type: "image", src: "../images/icons/cinemarIcono.png", alt: "Logo del Estudio" },
+            { type: "title", content: "CineMar" },
+            { type: "text", content: "Un cine y el mar" },
+            { type: "title", content: "Creditos que nadie pidio y ni realmente son de aqui" },
+            { type: "role", title: "Automatera certificada por la UNAM", names: ["Serena"] },
+            { type: "role", title: "Autista de Nissan", names: ["Caleb", "Gael"] },
+            { type: "role", title: "Orgulloso Americanista", names: ["Itzel", "Wendy", "Danna"] },
+            { type: "role", title: "Fabricante de sopa nissin", names: ["Jimena"] },
+            { type: "role", title: "Vendedor de fierro viejo", names: ["Miranda"] },
+            { type: "role", title: "Maestro de medio tiempo en el ITA", names: ["Caleb"] },
+            { type: "role", title: "Maestro de medio tiempo en la UNAM", names: ["Caleb"] },
+            { type: "role", title: "Maestro de medio tiempo en el IPN", names: ["Caleb"] },
+            { type: "role", title: "Maestro de medio tiempo en la UAM", names: ["Caleb"] },
+            { type: "role", title: "Maestro de medio tiempo en la UPN", names: ["Caleb"] },
+            { type: "role", title: "Miembro honorario del teleton", names: ["Caleb"] },
+            { type: "role", title: "Creador de contenido en TikTok", names: ["Salma"] },
+            { type: "role", title: "Jugador proplayer de Ponytown", names: ["Ami", "Mariño"] },
+            { type: "role", title: "El que no trae los cacahuates", names: ["Loaiza"] },
+            { type: "role", title: "Doctor Nogales", names: ["Daffy"] },
+            { type: "role", title: "Experto en subir memes sin contexto", names: ["Chon"] },
+            { type: "role", title: "El que nunca trae cambio y paga con billete de 500", names: ["Tony"] },
+            { type: "role", title: "Fan declarado de las series canceladas", names: ["Saavedra"] },
+            { type: "role", title: "Campeón nacional de excusas para no trabajar", names: ["Mendo"] },
+            { type: "role", title: "Vendedor oficial de chicles pegados", names: ["Daffy"] },
+            { type: "role", title: "Coleccionista de tazas de café vacías", names: ["Becerra"] },
+            { type: "role", title: "Crítico profesional de comida rápida", names: ["Sugey"] },
+            { type: "role", title: "El que se cree influencer sin tener followers", names: ["Lupe", "Salma"] },
+            { type: "role", title: "Master en perder el transporte", names: ["Sugey"] },
+            { type: "role", title: "Fanático de las películas que nadie entiende", names: ["Omar"] },
+            { type: "role", title: "Rey de las playlists que nadie pidió", names: ["Mariño"] },
+            { type: "role", title: "Especialista en cambiar el plan a último minuto", names: ["Mariño"] },
+            { type: "role", title: "El que se come el último pedazo sin avisar", names: ["Rosas"] },
+            { type: "role", title: "Profesor de memes vintage", names: ["Rosas"] },
+            { type: "role", title: "Conquistador frustrado de conversaciones grupales", names: ["Miz"] },
+            { type: "role", title: "Guardian oficial del WiFi lento", names: ["Valadez"] },
+            { type: "role", title: "Crítico experto en novelas de tele", names: ["Lupe", "Mariño", "Serena"] },
+            { type: "role", title: "El que se pone a bailar en los peores momentos", names: ["Daffy", "Tony"] },
+            { type: "role", title: "Inventor de apodos que nadie entiende", names: ["Mariño"] },
+            { type: "role", title: "Experto en desaparecer justo cuando toca limpiar", names: ["Wendy", "Rosas"] },
+            { type: "role", title: "Piloto de carrito de supermercado sin licencia", names: ["Oriih"] },
+            { type: "role", title: "Experto en memes de gatos con sombrero", names: ["Jimena"] },
+            { type: "role", title: "Distribuidor oficial de chismes no confirmados", names: ["Edwin", "Palafox", "Gilberto", "Jonhnatan", "Mariño"] },
+            { type: "role", title: "Campeón mundial de hacer cara de ‘qué pedo’", names: ["Chris"] },
+            { type: "role", title: "El que siempre tiene más hambre que dinero", names: ["Rosas"] },
+            { type: "role", title: "Crítico severo de películas malas pero las ve igual", names: ["Saavedra"] },
+            { type: "role", title: "Profesor honorario de siestas improvisadas", names: ["Chipi"] },
+            { type: "role", title: "El que se pone a cantar y arruina la canción", names: ["Mendo"] },
+            { type: "role", title: "Maestro en perder los lentes que tiene puestos", names: ["Daffy"] },
+            { type: "role", title: "El que llega a la reunión con pijama y nadie dice nada", names: ["Adame"] },
+            { type: "role", title: "El que nunca sabe qué día es pero siempre llega puntual", names: ["Serena"] },
+            { type: "role", title: "Especialista en hacerse el dormido cuando toca trabajar", names: ["Erai"] },
+            { type: "role", title: "El que siempre roba el WiFi del vecino", names: ["Peluches", "El compa Carlos de Daffy"] },
+            { type: "role", title: "Rey/reina del ‘ya casi termino’ pero nunca termina", names: ["Mau", "Hector"] },
+            { type: "role", title: "Experto en selfies con caras ridículas", names: ["Tony"] },
+            { type: "role", title: "El que inventa excusas hasta para ir al baño", names: ["Samuel"] },
+            { type: "role", title: "Crítico oficial de comida que solo come pizza", names: ["Fans de omar"] },
+            { type: "role", title: "El que nunca responde mensajes pero está en línea", names: ["La mayoria literal"] },
+            { type: "role", title: "Fan de las series que nadie recuerda", names: ["Saavedra"] },
+            { type: "role", title: "El que se pierde en su propia casa", names: ["Ni idea"] },
+            { type: "role", title: "El que siempre llega tarde pero tiene excusas creativas", names: ["Serena 2"] },
+            { type: "role", title: "El que siempre tiene una historia más loca que la tuya", names: ["Chris"] },
+            { type: "text", content: "Los fans de omar, como los quiero" },
+            { type: "image", src: "../images/promos/promoFansOmar.jpg", alt: "Equipo completo" },
+            { type: "text", content: "Y al equipo, que ha sido el mejor." },
+            { type: "image", src: "../images/other/ConLosClasistas.jpg", alt: "Equipo completo" },
+            { type: "text", content: "© 2025 CineMar" }
+        ];
+
+        document.getElementById("backBtn").addEventListener("click", () => {
+            window.location.href = "/"; // Cambia esto por la página que tú quieras
+        });
+
+
+        const creditsEl = document.getElementById("credits");
+        const audio = document.getElementById("bg-music");
+
+        creditData.forEach(item => {
+            const section = document.createElement("div");
+            section.classList.add("section");
+
+            if (item.type === "title") {
+                const h1 = document.createElement("h1");
+                h1.textContent = item.content;
+                section.appendChild(h1);
+            } else if (item.type === "text") {
+                const p = document.createElement("p");
+                p.textContent = item.content;
+                section.appendChild(p);
+            } else if (item.type === "role") {
+                const h2 = document.createElement("h2");
+                h2.textContent = item.title;
+                section.appendChild(h2);
+                item.names.forEach(name => {
+                    const p = document.createElement("p");
+                    p.textContent = name;
+                    section.appendChild(p);
+                });
+            } else if (item.type === "image") {
+                const img = document.createElement("img");
+                img.src = item.src;
+                img.alt = item.alt || "";
+                img.classList.add("credit-image");
+                section.appendChild(img);
+            }
+
+            creditsEl.appendChild(section);
+        });
+
+        audio.addEventListener("loadedmetadata", () => {
+            const duration = audio.duration; // segundos
+            const creditsHeight = creditsEl.offsetHeight;
+            const screenHeight = window.innerHeight;
+
+            creditsEl.style.animation = `scrollCredits ${duration}s linear`;
+
+            const style = document.createElement("style");
+            style.innerHTML = `
+        @keyframes scrollCredits {
+          from { top: 100%; }
+          to { top: -${creditsHeight}px; }
+        }
+      `;
+            document.head.appendChild(style);
+        });
+
+        audio.addEventListener('error', () => {
+            console.error("No se pudo cargar el audio.");
+        });
+
+        audio.addEventListener("ended", () => {
+            window.location.href = "/"; // cambia por tu página deseada
+        });
+
+    </script>
+</body>
+
+</html>

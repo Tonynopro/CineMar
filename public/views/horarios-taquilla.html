@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMar</title>
+    <link rel="stylesheet" href="/css/schedule.css">
+</head>
+
+<body>
+
+    <div class="content">
+        <div class="leftPanel">
+            <!-- Panel izquierdo con selección de días -->
+            <div class="place">
+                <div class="select"></div>
+                <div class="namePlace">SANTA ELENA</div>
+            </div>
+            <div class="days-container" id="diasContenedor">
+                
+            </div>
+
+            <!-- Horarios y tipos de funciones -->
+            <div class="hours-container">
+                
+            </div>
+        </div>
+
+        <div class="rightPanel">
+            <div class="infoBuy">
+                <div class="header">MI CARRITO</div>
+                <div class="infoMovie">
+                    <div class="name" id="nombrePelicula"></div>
+                    <div class="clasification" id="clasificacionPelicula"></div>
+                    <div class="time" id="duracionPelicula"></div>
+                </div>
+                <div class="place">
+                    <div class="cine">Santa Elena</div>
+                </div>
+                <div class="infoPrecio noshow" id="infoSala">
+                    <div class="sala" id="precioSala">PRECIO: $0.00</div>
+                    <div class="dia" id="dia">DIA: DIA</div>
+                    <div class="hora" id="hora">HORA: 00:00</div>
+                    <div class="sala" id="sala">SALA: 1 - TRADICIONAL</div>
+                </div>
+                <div class="options">
+                    <button class="shop" disabled id="comprar">SELECCIONAR ASIENTOS</button>
+                    <button class="back" onclick="window.history.back()">VOLVER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/horariosTaquilla.js"></script>
+</body>
+
+</html>

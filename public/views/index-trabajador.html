@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel del Trabajador</title>
+  <link rel="stylesheet" href="/css/info.css" />
+</head>
+<body>
+  <main>
+    <section class="form-container">
+      <header class="panel-header">
+        <div class="header-top">
+          <h1>Bienvenid@, <span id="nombreTrabajador"></span></h1>
+          <button id="cerrarSesionBtn">Cerrar sesión</button>
+        </div>
+        <hr />
+      </header>
+
+      <div class="contenido-principal">
+        <div class="columna-izquierda">
+          <h2>Datos del Trabajador</h2>
+          <p><strong>ID:</strong> <span id="idTrabajador"></span></p>
+          <p><strong>Nombre:</strong> <span id="nombreCompleto"></span></p>
+          <p><strong>CURP:</strong> <span id="curp"></span></p>
+        </div>
+
+        <div class="columna-derecha">
+          <h2>Turnos Asignados</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th>Rol</th>
+              </tr>
+            </thead>
+            <tbody id="tablaTurnos">
+              <!-- Turnos insertados con JS -->
+            </tbody>
+          </table>
+          <div class="boton-admin" id="btnContainer">
+            <!-- Aquí se agregarán los botones dinámicamente -->
+          </div>          
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/js/indexTrabajador.js"></script>
+</body>
+</html>

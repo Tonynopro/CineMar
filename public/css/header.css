@@ -1,0 +1,156 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1b1b1b;
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header .left, 
+header .center, 
+header .right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+header .logo img {
+  height: 40px;
+  object-fit: contain;
+}
+
+header .optHead {
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header .optHead:hover {
+  background-color: #333;
+  color: #00bcd4;
+}
+
+header .optHead a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header .selectCine {
+  background-color: #333;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+header .selectCine label {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+header .selectCine select {
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+header .selectCine select:hover,
+header .selectCine select:focus {
+  border-color: #00bcd4;
+}
+
+header .userIcon {
+  background-color: #333;
+  padding: 0.6rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+header .userIcon:hover {
+  background-color: #444;
+}
+
+header .userIcon img {
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  header .left,
+  header .right {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  header .selectCine {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header .selectCine label,
+  header .selectCine select {
+    font-size: 0.8rem;
+  }
+}
+
+header .optHead.active {
+  background-color: #00bcd4;
+  color: #000;
+}
+
+.userMenu {
+  position: absolute;
+  top: 60px; /* ajusta según tamaño del header */
+  right: 2rem;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  padding: 0.8rem 0;
+  display: none;
+  flex-direction: column;
+  min-width: 200px;
+  z-index: 1001;
+}
+
+.userMenu a,
+.userMenu div {
+  color: #fff;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+userMenu a {
+  cursor: pointer;
+}
+
+.userMenu a:hover {
+  background-color: #3a3a3a;
+  color: #00bcd4;
+}
+
+
+

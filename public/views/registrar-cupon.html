@@ -1,0 +1,59 @@
+<!-- cupones-ofertas.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Ofertas</title>
+  <link rel="stylesheet" href="../css/sign-in.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <main>
+    <section class="form-container">
+      <button id="btn-volver" class="btn-volver" onclick="window.history.back();"><i class="fas fa-arrow-left"></i> Volver</button>
+
+      <h1>REGISTRO DE OFERTA</h1>
+      <hr />
+      <form id="form-oferta">
+
+        <input type="text" id="folio" name="coupon" required placeholder="Código de oferta" maxlength="3" pattern="\d*"
+          inputmode="numeric">
+
+        <select id="tipo" required>
+          <option value="Entradas 2X1">Entradas 2X1</option>
+          <option value="50% descuento">50% descuento</option>
+          <option value="boletos gratis">Boleto gratis</option>
+        </select>
+
+        <label for="trabajador-id">Trabajador responsable</label>
+        <select id="trabajador-id" required>
+          <option disabled selected value=0>Seleccionar trabajador</option>
+          <!-- Aquí se llenará dinámicamente con JavaScript -->
+        </select>
+
+        <div class="password-container">
+          <input class="eye-password" type="password" id="password" name="contraseña"
+            placeholder="Contraseña del trabajador" required maxlength="30">
+          <i id="toggle-password" class="fas fa-eye"></i> <!-- Icono para mostrar/ocultar -->
+        </div>
+
+        <div id="mensaje"></div>
+
+        <button type="submit">Registrar Oferta</button>
+      </form>
+    </section>
+  </main>
+   <script>
+    document.getElementById('folio').addEventListener('input', function () {
+      // Reemplaza cualquier carácter no numérico en tiempo real
+      this.value = this.value.replace(/\D/g, '');
+    });
+  </script>
+  <script src="../js/passwordEye.js"></script>
+  <script type="module" src="../js/oferta.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e0e0e0;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+}
+/* Contenedor principal */
+.content {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    color: black;
+}
+
+/* Panel izquierdo */
+.leftPanel {
+    width: 35%;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de días */
+.days-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.day-button {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    background-color: #f4f4f4;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.day-button:hover {
+    background-color: #ff5722;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.day-button .day {
+    display: flex;
+    flex-direction: column;
+}
+
+.nameDay {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.numberDay {
+    font-size: 1rem;
+    color: #777;
+}
+
+/* Contenedor de horarios */
+.hours-container {
+    margin-top: 20px;
+}
+
+.hour {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.hour:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Colores de tipo de funciones */
+.hour-time {
+    font-size: 1.2rem;
+}
+
+.hour-type {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Panel derecho (Carrito de compra) */
+.rightPanel {
+    width: 60%;
+    padding: 10px;
+}
+
+.infoBuy {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.infoMovie,
+.place,
+.asientos,
+.infoPrecio {
+    margin-bottom: 20px;
+}
+
+.name,
+.clasification,
+.time,
+.cine,
+.date,
+.sala,
+.lugar,
+.precio,
+.dia,
+.hora {
+    font-size: 1rem;
+    color: #555;
+}
+
+.subtotal,
+.IVA,
+.total {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.shop,
+.back {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff5722;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
+}
+
+.shop:disabled,
+.back:disabled {
+    background-color: #ffa082;
+    /* más pálido */
+    color: #f5f5f5;
+    transform: none;
+    transition: none;
+}
+
+.shop:hover,
+.back:hover {
+    background-color: #e64a19;
+    transform: translateY(-3px);
+}
+
+/* Ignorar hover si está deshabilitado */
+.shop:disabled:hover,
+.back:disabled:hover {
+    background-color: #ffa082;
+    /* Mantener el color pálido */
+    transform: none;
+    /* No se mueve */
+}
+
+.shop:active,
+.back:active {
+    transform: translateY(1px);
+}
+
+@keyframes slideFromTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hour {
+    animation: slideFromTop 0.4s ease;
+}
+
+.hour.selected {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    transform: scale(1.03);
+    border: 2px solid #fff;
+    transition: all 0.2s ease;
+}
+
+.cantidadBoletos {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.cantidadBoletos button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cantidadBoletos button:hover {
+    background-color: #1976d2;
+}
+
+.cantidadBoletos .boletos {
+    font-size: 1.4rem;
+    min-width: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+}
+
+.noshow {
+    display: none;
+}
+
+.day-button.selected {
+    background-color: #e43500;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 0 10px rgb(255, 60, 0);
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 1024px) {
+    .content {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .leftPanel,
+    .rightPanel {
+        width: 100%;
+    }
+
+    .day-button {
+        font-size: 1rem;
+        padding: 12px 16px;
+    }
+
+    .hour {
+        font-size: 1rem;
+        padding: 12px 16px;
+    }
+
+    .shop,
+    .back {
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nameDay {
+        font-size: 1rem;
+    }
+
+    .numberDay {
+        font-size: 0.9rem;
+    }
+
+    .hour-time {
+        font-size: 1rem;
+    }
+
+    .hour-type {
+        font-size: 0.9rem;
+    }
+
+    .cantidadBoletos {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cantidadBoletos button {
+        width: 100%;
+    }
+
+    .cantidadBoletos .boletos {
+        font-size: 1.2rem;
+    }
+
+    .infoBuy {
+        padding: 15px;
+    }
+
+    .header {
+        font-size: 1.3rem;
+    }
+
+    .subtotal,
+    .IVA,
+    .total {
+        font-size: 1.1rem;
+    }
+}

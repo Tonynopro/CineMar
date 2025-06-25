@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel del Administrador</title>
+  <link rel="stylesheet" href="/css/info.css" />
+</head>
+<body>
+  <main>
+    <section class="form-container">
+      <header class="panel-header">
+        <div class="header-top">
+          <h1>Panel del Administrador</h1>
+          <button id="cerrarSesionBtn" onclick="window.location.href='/admin/salir'">Cerrar sesión</button>
+        </div>
+        <hr />
+      </header>
+
+      <div class="boton-admin">
+        <button class="adminSalaBtn" onclick="window.location.href='/trabajador/registro'">Registrar Trabajador</button>
+        <button class="adminSalaBtn" onclick="window.location.href='/trabajador/eliminarTrabajador'">Dar de baja a Trabajador</button>
+        <button class="adminSalaBtn" onclick="window.location.href='/admin/asignar-funcion'">Gestionar Funciones</button>
+        <button class="adminSalaBtn" onclick="window.location.href='/admin/asignar-trabajador'">Asignar Roles</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
