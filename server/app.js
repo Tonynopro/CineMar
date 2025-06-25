@@ -99,7 +99,7 @@ app.get('/ping', (req, res) => {
 //Prueba redirección inicial
 app.get('/', (req, res) => {
   console.log('Sesión actual:', req.session);
-  return res.sendFile(path.join(__dirname, '../public/views/index.html'));
+  return res.send("¡Bienvenido a la aplicación de cine!");
 });
 
 // Iniciar servidor
