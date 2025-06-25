@@ -74,6 +74,7 @@ app.use('/trabajador/compra', trabajadorCompraRoutes);
 
 // Redirección inicial
 app.get('/', (req, res) => {
+  console.log('Sesión actual:', req.session);
   switch (req.session.tipo) {
     case 'trabajador':
       return res.redirect('/trabajador/');
