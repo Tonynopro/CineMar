@@ -13,6 +13,7 @@ if (!port) {
   process.exit(1);
 }
 
+/*
 // Middleware para limpiar la compra
 const { limpiarInfoCompraEnGet } = require('./middlewares/limpiarCompra');
 
@@ -92,6 +93,13 @@ app.use((req, res, next) => {
 
 app.get('/ping', (req, res) => {
   res.send('pong');
+});
+*/
+
+//Prueba redirección inicial
+app.get('/', (req, res) => {
+  console.log('Sesión actual:', req.session);
+  return res.sendFile(path.join(__dirname, '../public/views/index.html'));
 });
 
 // Iniciar servidor
