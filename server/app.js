@@ -1,12 +1,10 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const os = require('os');
 const dotenv = require('dotenv');
 
 const app = express();
 dotenv.config();
-const port = process.env.PORT;
 
 process.on('uncaughtException', err => {
   console.error('Uncaught Exception:', err);
@@ -15,30 +13,6 @@ process.on('uncaughtException', err => {
 process.on('unhandledRejection', err => {
   console.error('Unhandled Rejection:', err);
 });
-
-
-// Función mejorada para detectar IP local
-function getLocalIP() {
-  const interfaces = os.networkInterfaces();
-  const addresses = [];
-
-  for (let iface in interfaces) {
-    for (let alias of interfaces[iface]) {
-      if (alias.family === 'IPv4' && !alias.internal) {
-        addresses.push(alias.address);
-      }
-    }
-  }
-
-  console.log('Direcciones IP detectadas:', addresses);
-
-  // Preferimos IPs privadas (192.x, 10.x, 172.x)
-  const preferida = addresses.find(ip =>
-    ip.startsWith('192.') || ip.startsWith('10.') || ip.startsWith('172.')
-  );
-
-  return preferida || 'localhost';
-}
 
 // Middleware para limpiar la compra
 const { limpiarInfoCompraEnGet } = require('./middlewares/limpiarCompra');
@@ -117,9 +91,6 @@ app.use((req, res, next) => {
 });
 
 // Iniciar servidor
-const localIP = getLocalIP();
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor escuchando en:
-  - PC:   http://localhost:${port}
-  - Red:  http://${localIP}:${port}`);
+app.listen('0.0.0.0', () => {
+  console.log("Servidor listo")
 });
