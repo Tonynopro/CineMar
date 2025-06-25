@@ -8,6 +8,15 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT;
 
+process.on('uncaughtException', err => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', err => {
+  console.error('Unhandled Rejection:', err);
+});
+
+
 // Función mejorada para detectar IP local
 function getLocalIP() {
   const interfaces = os.networkInterfaces();
