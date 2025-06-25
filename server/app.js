@@ -108,6 +108,10 @@ app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, '../public/views/404.html'));
 });
 
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
 // Iniciar servidor
 const localIP = getLocalIP();
 app.listen(port, '0.0.0.0', () => {
