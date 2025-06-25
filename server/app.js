@@ -8,6 +8,11 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT;
 
+if (!port) {
+  console.error('ERROR: No hay puerto asignado en process.env.PORT');
+  process.exit(1);
+}
+
 // Función mejorada para detectar IP local
 function getLocalIP() {
   const interfaces = os.networkInterfaces();
