@@ -94,3 +94,7 @@ app.use((req, res, next) => {
 app.listen('0.0.0.0', () => {
   console.log("Servidor listo")
 });
+
+app.get('/prueba', (req, res) => {
+  res.send('Servidor funcionando correctamente');
+});
