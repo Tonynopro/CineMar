@@ -6,12 +6,17 @@ const dotenv = require('dotenv');
 
 const app = express();
 dotenv.config();
+
 const port = process.env.PORT;
 
 if (!port) {
-  console.error('ERROR: No hay puerto asignado en process.env.PORT');
+  console.error('ERROR: No PORT specified.');
   process.exit(1);
 }
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Servidor listo en el puerto ${port}`);
+});
 
 /*
 // Middleware para limpiar la compra
@@ -97,7 +102,7 @@ app.get('/ping', (req, res) => {
 */
 
 //Prueba redirección inicial
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   console.log('Sesión actual:', req.session);
   return res.send("¡Bienvenido a la aplicación de cine!");
 });
@@ -105,4 +110,4 @@ app.get('/', (req, res) => {
 // Iniciar servidor
 app.listen(port, '0.0.0.0', () => {
   console.log(`Servidor listo en el puerto ${port}`);
-});
+});*/
