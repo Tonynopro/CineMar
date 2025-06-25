@@ -110,5 +110,5 @@ app.use((req, res, next) => {
 // Iniciar servidor
 const localIP = getLocalIP();
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor listo`);
+  console.log(`Servidor listo en el puerto ${port}`);
 });
