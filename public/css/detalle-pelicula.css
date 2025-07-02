@@ -140,3 +140,32 @@ body {
     cursor: default;
     background-color: #8d3d25;
 }
+
+.media-selector {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.media-selector button {
+    padding: 8px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.media-selector button.active {
+    background-color: #ff5722;
+}
+
+.media-content img,
+.media-content video {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    background-color: #1b1b1b;
+}

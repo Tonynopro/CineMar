@@ -27,7 +27,14 @@ const slides = [
     description: "Finalmente se enfrentan en la pantalla grande.",
     actionText: "Sigue la historia",
     link: "#promo4"
-  }
+  },
+  {
+  image: "../images/promos/promoFDO.jpg",
+  title: "DE LA SAGA DE FANS DE OMAR",
+  description: "La saga continúa con un nuevo capítulo.",
+  actionText: "Próximamente",
+  link: "#promo5"
+}
 ];
 
 let currentSlide = 0;

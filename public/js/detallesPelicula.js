@@ -21,7 +21,7 @@ async function loadMovieDetails() {
             document.getElementById('movie-genre').innerHTML = `<strong>Género:</strong> ${pelicula.genero}`;
             document.getElementById('movie-director').innerHTML = `<strong>Director:</strong> ${pelicula.director}`;
 
-            document.title = `Detalles de ${pelicula.titulo}`;
+            document.title = `Detalles de ${pelicula.titulo}`; // Cambiar el título de la página
 
             // Insertar actores dinámicamente
             const actorsContainer = document.getElementById('actors-container');
@@ -43,6 +43,35 @@ async function loadMovieDetails() {
                 actorDiv.appendChild(actorCharacter);
 
                 actorsContainer.appendChild(actorDiv);
+
+                // Mostrar selector de trailer si existe
+                if (pelicula.trailer) {
+                    const mediaSelector = document.getElementById("media-selector");
+                    const btnPoster = document.getElementById("btnPoster");
+                    const btnTrailer = document.getElementById("btnTrailer");
+                    const poster = document.getElementById("movie-image");
+                    const trailer = document.getElementById("movie-trailer");
+                    const trailerSource = document.getElementById("trailer-source");
+
+                    mediaSelector.style.display = "block";
+                    trailerSource.src = "../videos/trailers/" + pelicula.trailer; // <-- Aquí asumimos que es una URL válida tipo .mp4
+
+                    btnPoster.addEventListener("click", () => {
+                        poster.style.display = "block";
+                        trailer.style.display = "none";
+                        btnPoster.classList.add("active");
+                        btnTrailer.classList.remove("active");
+                    });
+
+                    btnTrailer.addEventListener("click", () => {
+                        poster.style.display = "none";
+                        trailer.style.display = "block";
+                        btnTrailer.classList.add("active");
+                        btnPoster.classList.remove("active");
+                        trailer.load();
+                    });
+                }
+
             });
         } else {
             // Manejar el caso de error, si no se encontró la película
@@ -55,7 +84,7 @@ async function loadMovieDetails() {
 }
 
 async function checkFunctions() {
-    try{
+    try {
         const response = await fetch(`/funciones/${movieId}`);
         const data = await response.json();
 
@@ -89,7 +118,7 @@ async function checkFunctions() {
 }
 
 // Llamar a la función cuando se cargue la página
-window.onload = async function() {
+window.onload = async function () {
     await loadMovieDetails();
     await checkFunctions();
 };

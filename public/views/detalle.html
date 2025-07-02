@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="icon" href="../images/icons/favicon-32x32.png" type="image/png">
 </head>
+
 <body>
 
     <header>
@@ -35,10 +37,10 @@
                 <div class="userIcon" id="userIcon">
                     <img src="../images/icons/userIcon.png" alt="Usuario">
                     <div class="userMenu" id="userMenu">
-                      <!-- Este contenido se actualizará dinámicamente con JS -->
+                        <!-- Este contenido se actualizará dinámicamente con JS -->
                     </div>
-                  </div>
-                  
+                </div>
+
             </div>
         </div>
     </header>
@@ -46,8 +48,20 @@
     <main class="detalle-container">
         <div class="poster-info">
             <div class="poster">
-                <img id="movie-image" src="path_to_movie_image.jpg" alt="Poster de la película">
+                <div class="media-selector" id="media-selector" style="display: none;">
+                    <button id="btnPoster" class="active">Póster</button>
+                    <button id="btnTrailer">Tráiler</button>
+                </div>
+
+                <div class="media-content">
+                    <img id="movie-image" src="" alt="Póster de la película">
+                    <video id="movie-trailer" controls style="display: none;">
+                        <source id="trailer-source" src="" type="video/mp4">
+                        Tu navegador no soporta la reproducción de video.
+                    </video>
+                </div>
             </div>
+
             <div class="info">
                 <h1 class="titulo" id="movie-title">Título de la Película</h1>
                 <p class="descripcion" id="movie-description">
@@ -105,4 +119,5 @@
     <script src="../js/header.js"></script>
 
 </body>
+
 </html>
