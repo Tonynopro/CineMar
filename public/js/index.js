@@ -29,7 +29,7 @@ const slides = [
     link: "#promo4"
   },
   {
-  image: "../images/promos/promoFDO.jpg",
+  image: "../images/promos/promoFans.jpg",
   title: "DE LA SAGA DE FANS DE OMAR",
   description: "La saga continúa con un nuevo capítulo.",
   actionText: "Próximamente",
