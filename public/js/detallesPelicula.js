@@ -21,6 +21,8 @@ async function loadMovieDetails() {
             document.getElementById('movie-genre').innerHTML = `<strong>Género:</strong> ${pelicula.genero}`;
             document.getElementById('movie-director').innerHTML = `<strong>Director:</strong> ${pelicula.director}`;
 
+            document.title = `Detalles de ${pelicula.titulo}`;
+
             // Insertar actores dinámicamente
             const actorsContainer = document.getElementById('actors-container');
             data.actores.forEach(actor => {

@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
             container.appendChild(card);
+
+            document.title = `Información de ${user.nombre}`;
         })
         .catch(err => {
             console.error("Error al cargar info:", err);
