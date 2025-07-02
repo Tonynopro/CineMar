@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Créditos Épicos</title>
+    <title>Créditos Épicos con Letras</title>
     <style>
         body {
             margin: 0;
@@ -69,6 +69,38 @@
         #backBtn:hover {
             background-color: #ddd;
         }
+
+        #lyrics-display {
+            position: fixed;
+            bottom: 80px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px black;
+            color: #ff5722;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            animation-duration: 0.5s;
+        }
+
+        #lyrics-display.fade-out {
+            animation-name: fadeOutLyric;
+        }
+
+        @keyframes fadeOutLyric {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
     </style>
 </head>
 
@@ -84,6 +116,8 @@
         <source src="../sounds/Cinemar End.mp3" type="audio/mpeg">
         Tu navegador no soporta audio HTML5.
     </audio>
+
+    <div id="lyrics-display"></div>
 
     <script>
 
@@ -156,14 +190,90 @@
             { type: "text", content: "© 2025 CineMar" }
         ];
 
-        document.getElementById("backBtn").addEventListener("click", () => {
-            window.location.href = "/"; // Cambia esto por la página que tú quieras
-        });
-
-
         const creditsEl = document.getElementById("credits");
         const audio = document.getElementById("bg-music");
+        const lyricsDisplay = document.getElementById("lyrics-display");
 
+        // Ejemplo simplificado de letras
+        const lyrics = [
+            { start: 12, end: 17, text: "Nadie creería que empezó así," },
+            { start: 18, end: 23, text: "un cine en Santa Elena… el peor lugar para abrir." },
+            { start: 25, end: 30, text: "Con archivos que no cargaban," },
+            { start: 31, end: 36, text: "y Mariño sin las pelis por subir." },
+            { start: 37, end: 43, text: "Pero aun sin guión ni luz en la sala," },
+            { start: 44, end: 49, text: "hicimos magia con lo que había." },
+
+            { start: 51, end: 53, text: "Cada error fue parte del guión," },
+            { start: 54, end: 57, text: "cada caos, nuestra producción." },
+            { start: 58, end: 60, text: "Wendy, Mariño y Tony — ¿quién lo diría?" },
+            { start: 61, end: 65, text: "Resultó un buen equipo al final del día." },
+
+            { start: 66, end: 72, text: "CineMar… un milagro digital," },
+            { start: 73, end: 77, text: "entre memes y fatalidad." },
+            { start: 79, end: 85, text: "Imagínate el desmadre que harían esos tres…" },
+            { start: 86, end: 91, text: "ahora piénsalo en una película real." },
+
+            { start: 92, end: 95, text: "Fans de Omar Origins siguen preguntando," },
+            { start: 95, end: 99, text: "¿para cuándo la escena que prometimos filmar?" },
+            { start: 99, end: 103, text: "Mientras “La mesa” y “El carrito” se volvieron clásicos," },
+            { start: 103, end: 106, text: "y “Obsesión Mortal” nos hizo llorar." },
+            { start: 105, end: 109, text: "“T2: El encierro”, sin presupuesto ni razón," },
+            { start: 109, end: 114, text: "pero qué final… pura emoción." },
+
+            { start: 114, end: 117, text: "Y entre tantos que no llegaron," },
+            { start: 118, end: 120, text: "hubo quien sin deber se quedó." },
+            { start: 121, end: 124, text: "Jimena, que ni era del equipo," },
+            { start: 125, end: 127, text: "y aun así… ayudó." },
+
+            { start: 127, end: 132, text: "CineMar… una sala entre mil errores," },
+            { start: 133, end: 137, text: "con dramas, glitches y editores." },
+            { start: 137, end: 141, text: "Pero aquí estamos, con todo y Santa Elena," },
+            { start: 142, end: 147, text: "proyectando sueños entre proyectores." },
+
+            { start: 147, end: 150, text: "Luces tenues, alma encendida," },
+            { start: 150, end: 153, text: "fue difícil, pero fue vida." },
+            { start: 153, end: 156, text: "Daffy enterrando el tuit supremo," },
+            { start: 156, end: 162, text: "nadie olvidará ese estreno." },
+
+            { start: 162, end: 169, text: "CineMar… luces que no morirán," },
+            { start: 169, end: 172, text: "aunque el telón llegue a bajar." },
+            { start: 172, end: 176, text: "De historias locas a ideas fugaces," },
+            { start: 176, end: 180, text: "esto fue real… y nadie lo borra ya." },
+
+            { start: 180, end: 182, text: "Las luces se apagan," },
+            { start: 183, end: 186, text: "pero el alma queda." },
+            { start: 186, end: 188, text: "Gracias…" },
+            { start: 189, end: 200, text: "por estar. <3" }
+        ];
+
+
+        let currentLyricIndex = -1;
+
+        audio.addEventListener('timeupdate', () => {
+            const t = audio.currentTime;
+            // Buscar la línea activa
+            const lineIndex = lyrics.findIndex(line => t >= line.start && t < line.end);
+
+            if (lineIndex !== currentLyricIndex) {
+                currentLyricIndex = lineIndex;
+                if (lineIndex === -1) {
+                    // No hay letra activa, ocultar
+                    lyricsDisplay.classList.add("fade-out");
+                    setTimeout(() => {
+                        lyricsDisplay.textContent = "";
+                        lyricsDisplay.classList.remove("fade-out");
+                        lyricsDisplay.style.opacity = 0;
+                    }, 500); // Debe coincidir con duration de animación
+
+                } else {
+                    // Mostrar letra activa
+                    lyricsDisplay.textContent = lyrics[lineIndex].text;
+                    lyricsDisplay.style.opacity = 1;
+                }
+            }
+        });
+
+        // Construir créditos en pantalla
         creditData.forEach(item => {
             const section = document.createElement("div");
             section.classList.add("section");
@@ -192,7 +302,6 @@
                 img.classList.add("credit-image");
                 section.appendChild(img);
             }
-
             creditsEl.appendChild(section);
         });
 
@@ -221,6 +330,9 @@
             window.location.href = "/"; // cambia por tu página deseada
         });
 
+        document.getElementById("backBtn").addEventListener("click", () => {
+            window.location.href = "/";
+        });
     </script>
 </body>
 
