@@ -48,7 +48,7 @@ async function cargarFunciones() {
             console.log(info);
             nombrePelicula.innerText = info.titulo;
             clasificacion.innerText = "Clasificación: " + info.clasificacion;
-            duracion.innerText = "Duración: " + info.duracion + " min";
+            duracion.innerText = "Duración: " + info.duracion_min + " min";
 
             const funcionesPorFecha = agruparFuncionesPorFecha(funcionesFiltradas);
 
