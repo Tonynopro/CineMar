@@ -1,6 +1,7 @@
 const path = require('path');
 const Info = require('../models/infoModel');
 const { info } = require('console');
+const e = require('express');
 
 exports.mostrarNuestraHistoria = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/Nuestra-historia.html'));
@@ -144,7 +145,7 @@ exports.traerPeliculas = (req, res) => {
     Info.obtenerPeliculas((err, results) => {
         if (err) {
             console.error('Error al obtener películas:', err.stack);
-            return res.status(500).json({ ok: false, mensaje: 'Error al obtener películas' });
+            return res.status(500).json({ ok: false, mensaje: err.message || 'Error al obtener películas' });
         }
 
         const peliculas = results[0];
