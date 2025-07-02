@@ -22,7 +22,8 @@ async function loadMovieDetails() {
             document.getElementById('movie-director').innerHTML = `<strong>Director:</strong> ${pelicula.director}`;
 
             document.title = `Detalles de ${pelicula.titulo}`; // Cambiar el título de la página
-
+            document.getElementById('movie-image').alt = `Póster de ${pelicula.titulo}`;
+            
             // Insertar actores dinámicamente
             const actorsContainer = document.getElementById('actors-container');
             data.actores.forEach(actor => {
@@ -58,6 +59,8 @@ async function loadMovieDetails() {
 
                     btnPoster.addEventListener("click", () => {
                         poster.style.display = "block";
+                        trailer.pause(); // Detener
+                        trailer.currentTime = 0; // Reiniciar
                         trailer.style.display = "none";
                         btnPoster.classList.add("active");
                         btnTrailer.classList.remove("active");
@@ -69,6 +72,7 @@ async function loadMovieDetails() {
                         btnTrailer.classList.add("active");
                         btnPoster.classList.remove("active");
                         trailer.load();
+                        trailer.play();
                     });
                 }
 
@@ -122,3 +126,5 @@ window.onload = async function () {
     await loadMovieDetails();
     await checkFunctions();
 };
+
+
