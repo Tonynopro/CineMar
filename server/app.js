@@ -5,6 +5,15 @@ const dotenv = require('dotenv');
 
 const app = express();
 dotenv.config();
+
+// Manejo global de errores para evitar cierres inesperados
+process.on('uncaughtException', (err) => {
+  console.error('Error no atrapado:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('Rechazo no manejado:', reason);
+});
+
 const port = process.env.PORT;
 
 // Middleware para limpiar la compra
@@ -47,6 +56,8 @@ app.use('/compra', compraRoutes);
 const trabajadorCompraRoutes = require('./routes/trabajadorCompraRoutes');
 app.use('/trabajador/compra', trabajadorCompraRoutes);
 
+// Endpoint healthcheck para Railway
+app.get('/health', (req, res) => res.send('OK'));
 
 // Redirección inicial
 app.get('/', (req, res) => {
@@ -68,7 +79,6 @@ app.get('/no-autorizado', (req, res) => {
   return res.sendFile(path.join(__dirname, '../public/views/acceso-denegado.html'));
 });
 
-
 // Perfil
 app.get('/perfil', (req, res) => {
   console.log(req.session);
@@ -85,5 +95,5 @@ app.use((req, res, next) => {
 
 // Iniciar servidor
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor encendido`);
+  console.log(`Servidor encendido en puerto ${port}`);
 });
