@@ -6,19 +6,31 @@ const dotenv = require('dotenv');
 
 const app = express();
 dotenv.config();
-
 const port = process.env.PORT;
 
-if (!port) {
-  console.error('ERROR: No PORT specified.');
-  process.exit(1);
+// Función mejorada para detectar IP local
+function getLocalIP() {
+  const interfaces = os.networkInterfaces();
+  const addresses = [];
+
+  for (let iface in interfaces) {
+    for (let alias of interfaces[iface]) {
+      if (alias.family === 'IPv4' && !alias.internal) {
+        addresses.push(alias.address);
+      }
+    }
+  }
+
+  console.log('Direcciones IP detectadas:', addresses);
+
+  // Preferimos IPs privadas (192.x, 10.x, 172.x)
+  const preferida = addresses.find(ip =>
+    ip.startsWith('192.') || ip.startsWith('10.') || ip.startsWith('172.')
+  );
+
+  return preferida || 'localhost';
 }
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor listo en el puerto ${port}`);
-});
-
-/*
 // Middleware para limpiar la compra
 const { limpiarInfoCompraEnGet } = require('./middlewares/limpiarCompra');
 
@@ -62,7 +74,6 @@ app.use('/trabajador/compra', trabajadorCompraRoutes);
 
 // Redirección inicial
 app.get('/', (req, res) => {
-  console.log('Sesión actual:', req.session);
   switch (req.session.tipo) {
     case 'trabajador':
       return res.redirect('/trabajador/');
@@ -96,18 +107,10 @@ app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, '../public/views/404.html'));
 });
 
-app.get('/ping', (req, res) => {
-  res.send('pong');
-});
-*/
-
-//Prueba redirección inicial
-/*app.get('/', (req, res) => {
-  console.log('Sesión actual:', req.session);
-  return res.send("¡Bienvenido a la aplicación de cine!");
-});
-
 // Iniciar servidor
+const localIP = getLocalIP();
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor listo en el puerto ${port}`);
-});*/
+  console.log(`Servidor escuchando en:
+  - PC:   http://localhost:${port}
+  - Red:  http://${localIP}:${port}`);
+});
