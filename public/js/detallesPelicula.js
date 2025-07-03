@@ -47,7 +47,9 @@ async function loadMovieDetails() {
 
                 console.log(pelicula.trailer)
 
-                // Mostrar selector de trailer si existe
+            });
+
+            // Mostrar selector de trailer si existe
                 if (pelicula.trailer) {
                     const mediaSelector = document.getElementById("media-selector");
                     const btnPoster = document.getElementById("btnPoster");
@@ -77,8 +79,7 @@ async function loadMovieDetails() {
                         trailer.play();
                     });
                 }
-
-            });
+                
         } else {
             // Manejar el caso de error, si no se encontró la película
             console.error('Película no encontrada o error en la respuesta');
