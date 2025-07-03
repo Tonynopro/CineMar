@@ -23,7 +23,7 @@ async function loadMovieDetails() {
 
             document.title = `Detalles de ${pelicula.titulo}`; // Cambiar el título de la página
             document.getElementById('movie-image').alt = `Póster de ${pelicula.titulo}`;
-            
+
             // Insertar actores dinámicamente
             const actorsContainer = document.getElementById('actors-container');
             data.actores.forEach(actor => {
@@ -44,6 +44,8 @@ async function loadMovieDetails() {
                 actorDiv.appendChild(actorCharacter);
 
                 actorsContainer.appendChild(actorDiv);
+
+                console.log(pelicula.trailer)
 
                 // Mostrar selector de trailer si existe
                 if (pelicula.trailer) {
