@@ -2,36 +2,44 @@ const db = require('../config/db');
 
 const Admin = {
 
-    accesoAdmin: (correo, contraseña, callback) => {
-        db.query('CALL adminAcceso(?, ?)', [correo, contraseña], callback);
+    accesoAdmin: async (correo, contraseña) => {
+        const [rows] = await db.query('CALL adminAcceso(?, ?)', [correo, contraseña]);
+        return rows;
     },
 
-    asignarRol: (fecha, trabajador, rol, callback) => {
-        db.query('CALL asignarRolDelDia(?, ?, ?)', [fecha, trabajador, rol], callback);
+    asignarRol: async (fecha, trabajador, rol) => {
+        const [rows] = await db.query('CALL asignarRolDelDia(?, ?, ?)', [fecha, trabajador, rol]);
+        return rows;
     },
 
-    traerTodosTrabajadores: (callback) => {
-        db.query('CALL traerTrabajadores()', callback);
+    traerTodosTrabajadores: async () => {
+        const [rows] = await db.query('CALL traerTrabajadores()');
+        return rows;
     },
 
-    traerTodosRoles: (callback) => {
-        db.query('CALL traerRoles()', callback);
+    traerTodosRoles: async () => {
+        const [rows] = await db.query('CALL traerRoles()');
+        return rows;
     },
 
-    traerTodasSalas: (callback) => {
-        db.query('CALL traerSalas()', callback);
+    traerTodasSalas: async () => {
+        const [rows] = await db.query('CALL traerSalas()');
+        return rows;
     },
 
-    asignarSala: (fecha, trabajador, rol, sala, callback) => {
-        db.query('CALL asignarEncargadoSala(?, ?, ?, ?)', [fecha, trabajador, rol, sala], callback);
-    },
-    
-    traerTodasPeliculas: (callback) => {
-        db.query('CALL traerPeliculas()', callback);
+    asignarSala: async (fecha, trabajador, rol, sala) => {
+        const [rows] = await db.query('CALL asignarEncargadoSala(?, ?, ?, ?)', [fecha, trabajador, rol, sala]);
+        return rows;
     },
 
-    registrarFuncion: (pelicula, sala, dia, hora, callback) => {
-        db.query('CALL asignarFuncion(?, ?, ?, ?)', [dia, hora, pelicula, sala], callback);
+    traerTodasPeliculas: async () => {
+        const [rows] = await db.query('CALL traerPeliculas()');
+        return rows;
+    },
+
+    registrarFuncion: async (pelicula, sala, dia, hora) => {
+        const [rows] = await db.query('CALL asignarFuncion(?, ?, ?, ?)', [dia, hora, pelicula, sala]);
+        return rows;
     }
 
 };

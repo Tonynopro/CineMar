@@ -2,28 +2,38 @@ const db = require('../config/db');
 
 const Compra = {
 
-    traerSala: (id, callback) => {
-        db.query('CALL traerSala(?)', [id], callback);
+    traerSala: async (id) => {
+        const [rows] = await db.query('CALL traerSala(?)', [id]);
+        return rows;
     },
     
-    traerAsientos: (id, callback) => {
-        db.query('CALL asientosdisponibles(?)', [id], callback);
+    traerAsientos: async (id) => {
+        const [rows] = await db.query('CALL asientosdisponibles(?)', [id]);
+        return rows;
     },
 
-    traerCodigoDescuento: (id, callback) => {
-        db.query('CALL infoOferta(?)', [id], callback);
+    traerCodigoDescuento: async (id) => {
+        const [rows] = await db.query('CALL infoOferta(?)', [id]);
+        return rows;
     },
 
-    comprarBoleto: (titulo, genero, clasificacion, sala, filaAsiento, numeroAsiento, subtotal, iva, total, oferta, metodoPago, tipoCompra, idVenta, fecha, hora, callback) => {
-        db.query('CALL boletoG(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [titulo, genero, clasificacion, sala, filaAsiento, numeroAsiento, subtotal, iva, total, oferta, metodoPago, tipoCompra, idVenta, fecha, hora], callback);
+    comprarBoleto: async (titulo, genero, clasificacion, sala, filaAsiento, numeroAsiento, subtotal, iva, total, oferta, metodoPago, tipoCompra, idVenta, fecha, hora) => {
+        const [rows] = await db.query('CALL boletoG(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [
+            titulo, genero, clasificacion, sala, filaAsiento, numeroAsiento,
+            subtotal, iva, total, oferta, metodoPago, tipoCompra,
+            idVenta, fecha, hora
+        ]);
+        return rows;
     },
 
-    crearVenta: (idCliente, callback) => {
-        db.query('CALL nueva_venta(?)', [idCliente], callback);
+    crearVenta: async (idCliente) => {
+        const [rows] = await db.query('CALL nueva_venta(?)', [idCliente]);
+        return rows;
     },
 
-    checarUsuario: (correo, callback) => {
-        db.query('CALL infoCliente(?)', [correo], callback);
+    checarUsuario: async (correo) => {
+        const [rows] = await db.query('CALL infoCliente(?)', [correo]);
+        return rows;
     }
 };
 

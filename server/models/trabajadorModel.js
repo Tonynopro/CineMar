@@ -2,52 +2,64 @@ const db = require('../config/db');
 
 const Trabajador = {
 
-    crearTrabajador: (curp, nombre, apellido, fecha_nacimiento, fecha_ingreso, contraseña, callback) => {
-        db.query('CALL registrarTrabajador(?, ?, ?, ?, ?, ?)', [curp, nombre, apellido, fecha_nacimiento, fecha_ingreso, contraseña], callback);
+    crearTrabajador: async (curp, nombre, apellido, fecha_nacimiento, fecha_ingreso, contraseña) => {
+        const [rows] = await db.query('CALL registrarTrabajador(?, ?, ?, ?, ?, ?)', [curp, nombre, apellido, fecha_nacimiento, fecha_ingreso, contraseña]);
+        return rows;
     },
 
-    accesoTrabajador: (id, contraseña, callback) => {
-        db.query('CALL iniciarSesion(?, ?)', [id, contraseña], callback);
+    accesoTrabajador: async (id, contraseña) => {
+        const [rows] = await db.query('CALL iniciarSesion(?, ?)', [id, contraseña]);
+        return rows;
     },
 
-    eliminarTrabajador: (id, callback) => {
-        db.query('CALL eliminarTrabajador(?)', [id], callback);
+    eliminarTrabajador: async (id) => {
+        const [rows] = await db.query('CALL eliminarTrabajador(?)', [id]);
+        return rows;
     },
 
-    obtenerTrabajador: (id, callback) => {
-        db.query('CALL obtenerTrabajador(?)', [id], callback);
+    obtenerTrabajador: async (id) => {
+        const [rows] = await db.query('CALL obtenerTrabajador(?)', [id]);
+        return rows;
     },
 
-    obtenerTurnos: (id, callback) => {
-        db.query('CALL obtenerTodosLosRolesDelTrabajador(?)', [id], callback);
+    obtenerTurnos: async (id) => {
+        const [rows] = await db.query('CALL obtenerTodosLosRolesDelTrabajador(?)', [id]);
+        return rows;
     },
 
-    registrarOferta: (folio, tipo, id_trab, contra, callback) => {
-        db.query('CALL registrarOferta(?, ?, ?, ?)', [folio, tipo, id_trab, contra], callback);
+    registrarOferta: async (folio, tipo, id_trab, contra) => {
+        const [rows] = await db.query('CALL registrarOferta(?, ?, ?, ?)', [folio, tipo, id_trab, contra]);
+        return rows;
     },
 
-    obtenerSupervisores: (callback) => {
-        db.query('CALL traerSupervisores()', callback);
+    obtenerSupervisores: async () => {
+        const [rows] = await db.query('CALL traerSupervisores()');
+        return rows;
     },
 
-    obtenerSalaDelDia: (id, callback) => {
-        db.query('CALL salaEncargado(?)', [id], callback);
+    obtenerSalaDelDia: async (id) => {
+        const [rows] = await db.query('CALL salaEncargado(?)', [id]);
+        return rows;
     },
 
-    obtenerFuncionesDeLaSala: (id, callback) => {
-        db.query('CALL funcionesSala(?)', [id], callback);
+    obtenerFuncionesDeLaSala: async (id) => {
+        const [rows] = await db.query('CALL funcionesSala(?)', [id]);
+        return rows;
     },
 
-    traerSala: (id, callback) => {
-        db.query('CALL traerSala(?)', [id], callback);
+    traerSala: async (id) => {
+        const [rows] = await db.query('CALL traerSala(?)', [id]);
+        return rows;
     },
-    
-    traerAsientos: (id, callback) => {
-        db.query('CALL asientosdisponibles(?)', [id], callback);
+
+    traerAsientos: async (id) => {
+        const [rows] = await db.query('CALL asientosdisponibles(?)', [id]);
+        return rows;
     },
-    
-    obtenerRolActual: (id, callback) => {
-        db.query('CALL traerRol(?)', [id], callback);
+
+    obtenerRolActual: async (id) => {
+        const [rows] = await db.query('CALL traerRol(?)', [id]);
+        return rows;
     }
 
 };

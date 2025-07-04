@@ -2,34 +2,41 @@ const db = require('../config/db');
 
 const Info = {
 
-    obtenerInfo: (id, callback) => {
-        db.query('CALL infoPelicula(?)', [id], callback);
-    },
+  obtenerInfo: async (id) => {
+    const [rows] = await db.query('CALL infoPelicula(?)', [id]);
+    return rows;
+  },
 
-    obtenerActores: (id, callback) => {
-        db.query('CALL traerActores(?)', [id], callback);
-    },
+  obtenerActores: async (id) => {
+    const [rows] = await db.query('CALL traerActores(?)', [id]);
+    return rows;
+  },
 
-    obtenerFunciones: (id, callback) => {
-        db.query('CALL traerFuncionesPelicula(?)', [id], callback);
-    },
-    
-    obtenerAsientos: (id, callback) => {
-        db.query('CALL asientosdisponibles(?)', [id], callback);
-    },
+  obtenerFunciones: async (id) => {
+    const [rows] = await db.query('CALL traerFuncionesPelicula(?)', [id]);
+    return rows;
+  },
 
-    obtenerPeliculas: (callback) => {
-        db.query('CALL peliculasCartelera()', callback);
-    },
+  obtenerAsientos: async (id) => {
+    const [rows] = await db.query('CALL asientosdisponibles(?)', [id]);
+    return rows;
+  },
 
-    obtenerPromociones: (callback) => {
-        db.query('CALL promociones()', callback);
-    },
+  obtenerPeliculas: async () => {
+    const [rows] = await db.query('CALL peliculasCartelera()');
+    return rows;
+  },
 
-    obtenerPeliculasHoy: (callback) => {
-        db.query('CALL peliculasCarteleraHoy()', callback);
-    }
-    
+  obtenerPromociones: async () => {
+    const [rows] = await db.query('CALL promociones()');
+    return rows;
+  },
+
+  obtenerPeliculasHoy: async () => {
+    const [rows] = await db.query('CALL peliculasCarteleraHoy()');
+    return rows;
+  }
+
 };
 
 module.exports = Info;

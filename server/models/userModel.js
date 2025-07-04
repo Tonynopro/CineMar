@@ -1,32 +1,39 @@
 const db = require('../config/db');
 
 const User = {
-    verificarCorreo: (correo, callback) => {
-        db.query('CALL usuariosExistentes(?)', [correo], callback);
+    verificarCorreo: async (correo) => {
+        const [rows] = await db.query('CALL usuariosExistentes(?)', [correo]);
+        return rows;
     },
 
-    crearUsuario: (nombre, apellido, fecha_nacimiento, correo, contraseña, callback) => {
-        db.query('CALL crear_usuario(?, ?, ?, ?, ?)', [nombre, apellido, fecha_nacimiento, correo, contraseña], callback);
+    crearUsuario: async (nombre, apellido, fecha_nacimiento, correo, contraseña) => {
+        const [rows] = await db.query('CALL crear_usuario(?, ?, ?, ?, ?)', [nombre, apellido, fecha_nacimiento, correo, contraseña]);
+        return rows;
     },
 
-    accesoUsuario: (correo, contraseña, callback) => {
-        db.query('CALL iniciarSesionCliente(?, ?)', [correo, contraseña], callback);
+    accesoUsuario: async (correo, contraseña) => {
+        const [rows] = await db.query('CALL iniciarSesionCliente(?, ?)', [correo, contraseña]);
+        return rows;
     },
 
-    eliminarUsuario: (id, callback) => {
-        db.query('CALL eliminarClienteRegistrado(?)', [id], callback);
+    eliminarUsuario: async (id) => {
+        const [rows] = await db.query('CALL eliminarClienteRegistrado(?)', [id]);
+        return rows;
     },
 
-    traerBoletosComprados: (id, callback) => {
-        db.query('CALL traerBoletoUsuario(?)', [id], callback);
+    traerBoletosComprados: async (id) => {
+        const [rows] = await db.query('CALL traerBoletoUsuario(?)', [id]);
+        return rows;
     },
 
-    traerVentasYBoletos: (id, callback) => {
-        db.query('CALL ventasUsuario(?)', [id], callback);
+    traerVentasYBoletos: async (id) => {
+        const [rows] = await db.query('CALL ventasUsuario(?)', [id]);
+        return rows;
     },
 
-    traerTotalVenta: (id, callback) => {
-        db.query('CALL total_venta(?)', [id], callback);
+    traerTotalVenta: async (id) => {
+        const [rows] = await db.query('CALL total_venta(?)', [id]);
+        return rows;
     },
 };
 

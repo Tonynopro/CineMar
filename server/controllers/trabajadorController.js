@@ -1,170 +1,124 @@
 const path = require('path');
 const Trabajador = require('../models/trabajadorModel');
-const e = require('express');
 
 exports.mostrarFormularioRegistro = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/registrar-trabajador.html'));
 };
 
 exports.mostrarFormularioAcceso = (req, res) => {
-
     if (req.session.tipo === "trabajador") {
         return res.redirect('/trabajador/index');
-    } else {
-        req.session.destroy((err) => {
-            if (err) {
-                console.error('Error al cerrar sesión:', err);
-            }
-            res.clearCookie('connect.sid'); // Limpiar la cookie de sesión
-        });
-        res.sendFile(path.join(__dirname, '../../public/views/iniciar-sesion-trabajador.html'));
     }
-}
+    req.session.destroy(err => {
+        if (err) console.error('Error al cerrar sesión:', err);
+        res.clearCookie('connect.sid');
+        res.sendFile(path.join(__dirname, '../../public/views/iniciar-sesion-trabajador.html'));
+    });
+};
 
 exports.mostrarFormularioEliminacion = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/eliminar-trabajador.html'));
-}
+};
 
 exports.mostrarPaginaPrincipal = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/index-trabajador.html'));
-}
+};
 
-exports.mostrarFormularioOferta = (req, res) => {
-    if (!req.session.idTrabajador) {
-        res.redirect('/trabajador/iniciar-sesion');
-    }
-
-    Trabajador.obtenerRolActual(req.session.idTrabajador, (err, results) => {
-        if (err) {
-            console.error('Error al obtener rol actual:', err.stack);
-            res.redirect('/trabajador/iniciar-sesion');
-        }
+exports.mostrarFormularioOferta = async (req, res) => {
+    if (!req.session.idTrabajador) return res.redirect('/trabajador/iniciar-sesion');
+    try {
+        const results = await Trabajador.obtenerRolActual(req.session.idTrabajador);
         const roles = results[0];
         const tieneRolSala = roles.some(rol => rol.nombre_rol === 'supervisor');
-
-        if (!tieneRolSala) {
-            return res.redirect('/trabajador/');
-        }
-        else {
-            res.sendFile(path.join(__dirname, '../../public/views/registrar-cupon.html'));
-        }
-    });
-
-}
-
-exports.mostrarInfoSala = (req, res) => {
-    if (!req.session.idTrabajador) {
+        if (!tieneRolSala) return res.redirect('/trabajador/');
+        res.sendFile(path.join(__dirname, '../../public/views/registrar-cupon.html'));
+    } catch (err) {
+        console.error('Error al obtener rol actual:', err);
         res.redirect('/trabajador/iniciar-sesion');
     }
+};
 
-    Trabajador.obtenerRolActual(req.session.idTrabajador, (err, results) => {
-        if (err) {
-            console.error('Error al obtener rol actual:', err.stack);
-            res.redirect('/trabajador/iniciar-sesion');
-        }
+exports.mostrarInfoSala = async (req, res) => {
+    if (!req.session.idTrabajador) return res.redirect('/trabajador/iniciar-sesion');
+    try {
+        const results = await Trabajador.obtenerRolActual(req.session.idTrabajador);
         const roles = results[0];
         const tieneRolSala = roles.some(rol => rol.nombre_rol === 'sala');
-
-        if (!tieneRolSala) {
-            return res.redirect('/trabajador/');
-        }
-        else {
-            res.sendFile(path.join(__dirname, '../../public/views/vista-sala.html'))
-        }
-    });
-}
-
-exports.mostrarFunciones = (req, res) => {
-    if (!req.session.idTrabajador) {
+        if (!tieneRolSala) return res.redirect('/trabajador/');
+        res.sendFile(path.join(__dirname, '../../public/views/vista-sala.html'));
+    } catch (err) {
+        console.error('Error al obtener rol actual:', err);
         res.redirect('/trabajador/iniciar-sesion');
     }
-    Trabajador.obtenerRolActual(req.session.idTrabajador, (err, results) => {
-        if (err) {
-            console.error('Error al obtener rol actual:', err.stack);
-            res.redirect('/trabajador/iniciar-sesion');
-        }
+};
+
+exports.mostrarFunciones = async (req, res) => {
+    if (!req.session.idTrabajador) return res.redirect('/trabajador/iniciar-sesion');
+    try {
+        const results = await Trabajador.obtenerRolActual(req.session.idTrabajador);
         const roles = results[0];
         const tieneRolTaquilla = roles.some(rol => rol.nombre_rol === 'taquilla');
-
-        if (!tieneRolTaquilla) {
-            return res.redirect('/trabajador/');
-        }
-        else {
-            res.sendFile(path.join(__dirname, '../../public/views/cartelera.html'));
-        }
-    });
-}
-
-exports.mostrarHorariosPelicula = (req, res) => {
-    if (!req.session.idTrabajador) {
+        if (!tieneRolTaquilla) return res.redirect('/trabajador/');
+        res.sendFile(path.join(__dirname, '../../public/views/cartelera.html'));
+    } catch (err) {
+        console.error('Error al obtener rol actual:', err);
         res.redirect('/trabajador/iniciar-sesion');
     }
-    Trabajador.obtenerRolActual(req.session.idTrabajador, (err, results) => {
-        if (err) {
-            console.error('Error al obtener rol actual:', err.stack);
-            res.redirect('/trabajador/iniciar-sesion');
-        }
+};
+
+exports.mostrarHorariosPelicula = async (req, res) => {
+    if (!req.session.idTrabajador) return res.redirect('/trabajador/iniciar-sesion');
+    try {
+        const results = await Trabajador.obtenerRolActual(req.session.idTrabajador);
         const roles = results[0];
         const tieneRolTaquilla = roles.some(rol => rol.nombre_rol === 'taquilla');
-
-        if (!tieneRolTaquilla) {
-            return res.redirect('/trabajador/');
-        }
-        else {
-            res.sendFile(path.join(__dirname, '../../public/views/horarios-taquilla.html'));
-        }
-    });
+        if (!tieneRolTaquilla) return res.redirect('/trabajador/');
+        res.sendFile(path.join(__dirname, '../../public/views/horarios-taquilla.html'));
+    } catch (err) {
+        console.error('Error al obtener rol actual:', err);
+        res.redirect('/trabajador/iniciar-sesion');
+    }
 };
 
-exports.obtenerSupervisores = (req, res) => {
-    Trabajador.obtenerSupervisores((err, results) => {
-        if (err) {
-            console.error('Error al obtener supervisores:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-        const supervisores = results[0].map(supervisor => {
-            return {
-                id: supervisor.ID_trabajador,
-                nombre: supervisor.nombre,
-                apellido: supervisor.apellido,
-                curp: supervisor.CURP_T,
-                fecha: supervisor.fecha,
-                contraseña: supervisor.contraseña
-            };
-        });
-        return res.json({ ok: true, supervisores });
-    });
+exports.obtenerSupervisores = async (req, res) => {
+    try {
+        const results = await Trabajador.obtenerSupervisores();
+        const supervisores = results[0].map(s => ({
+            id: s.ID_trabajador,
+            nombre: s.nombre,
+            apellido: s.apellido,
+            curp: s.CURP_T,
+            fecha: s.fecha,
+            contraseña: s.contraseña,
+        }));
+        res.json({ ok: true, supervisores });
+    } catch (err) {
+        console.error('Error al obtener supervisores:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
 };
 
-exports.registrarTrabajador = (req, res) => {
+exports.registrarTrabajador = async (req, res) => {
     const { curp, nombre, apellido, fecha_nacimiento, fecha_contratacion, contraseña, verificar_contraseña } = req.body;
-
     if (contraseña !== verificar_contraseña) {
         return res.json({ ok: false, mensaje: 'Las contraseñas no coinciden' });
     }
-
-    Trabajador.crearTrabajador(curp, nombre, apellido, fecha_nacimiento, fecha_contratacion, contraseña, (err, results) => {
-        if (err) {
-            console.error('Error al registrar trabajador:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-        return res.json({ ok: true });
-    });
-
+    try {
+        await Trabajador.crearTrabajador(curp, nombre, apellido, fecha_nacimiento, fecha_contratacion, contraseña);
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error al registrar trabajador:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
 };
 
-exports.accesoTrabajador = (req, res) => {
+exports.accesoTrabajador = async (req, res) => {
     const { id, contraseña } = req.body;
-
-    Trabajador.accesoTrabajador(id, contraseña, (err, results) => {
-        if (err) {
-            console.error('Error al iniciar sesión:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+    try {
+        const results = await Trabajador.accesoTrabajador(id, contraseña);
         const mensaje = results[0][0].mensaje;
         if (mensaje === undefined) {
-            let perfil = results[0][0];
+            const perfil = results[0][0];
             req.session.idTrabajador = perfil.ID_trabajador;
             req.session.curp = perfil.CURP_T;
             req.session.nombre = perfil.nombre;
@@ -174,226 +128,155 @@ exports.accesoTrabajador = (req, res) => {
             req.session.contraseña = perfil.contraseña;
             req.session.tipo = "trabajador";
             return res.json({ ok: true, redirectTo: '/' });
-        } else {
-            return res.json({ ok: false, mensaje });
         }
-    });
-}
+        return res.json({ ok: false, mensaje });
+    } catch (err) {
+        console.error('Error al iniciar sesión:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
+};
 
 exports.cerrarSesion = (req, res) => {
-    req.session.destroy((err) => {
+    req.session.destroy(err => {
         if (err) {
             console.error('Error al cerrar sesión:', err);
             return res.json({ ok: false, mensaje: 'Error al cerrar sesión' });
         }
-        res.clearCookie('connect.sid'); // Limpiar la cookie de sesión
-        return res.json({ ok: true, mensaje: 'Se cerro sesion con exito' });
+        res.clearCookie('connect.sid');
+        res.json({ ok: true, mensaje: 'Se cerró sesión con éxito' });
     });
 };
 
-exports.eliminarTrabajador = (req, res) => {
+exports.eliminarTrabajador = async (req, res) => {
     const { id, contraseña } = req.body;
+    if (!id) return res.json({ ok: false, mensaje: 'ID de usuario requerido' });
 
-    if (!id) {
-        return res.json({ ok: false, mensaje: 'ID de usuario requerido' });
-    }
-
-    Trabajador.obtenerTrabajador(id, (err, results) => {
-        if (err) {
-            console.error('Error al obtener trabajador:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+    try {
+        const results = await Trabajador.obtenerTrabajador(id);
         const trabajador = results[0][0];
-        if (!trabajador) {
-            return res.json({ ok: false, mensaje: 'Trabajador no encontrado' });
-        }
-        console.log(req.session.contraseña);
+        if (!trabajador) return res.json({ ok: false, mensaje: 'Trabajador no encontrado' });
+
         if (req.session.contraseña !== contraseña) {
             return res.json({ ok: false, mensaje: 'Contraseña incorrecta' });
-        } else {
-
-            Trabajador.eliminarTrabajador(id, (err, results) => {
-
-                if (err) {
-                    console.error('Error al eliminar trabajador:', err.stack);
-                    return res.json({ ok: false, mensaje: 'Error al eliminar trabajador' });
-                }
-
-                let mensaje = results[0][0].mensaje;
-
-                if (mensaje != "Trabajador eliminado.") {
-                    return res.json({ ok: false, mensaje });
-                } else {
-
-                    return res.json({ ok: true, redirectTo: '/' });
-                }
-
-            });
         }
-    });
+
+        const eliminarRes = await Trabajador.eliminarTrabajador(id);
+        const mensaje = eliminarRes[0][0].mensaje;
+        if (mensaje !== "Trabajador eliminado.") {
+            return res.json({ ok: false, mensaje });
+        }
+
+        res.json({ ok: true, redirectTo: '/' });
+    } catch (err) {
+        console.error('Error al eliminar trabajador:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
 };
 
-exports.obtenerDatosTrabajador = (req, res) => {
+exports.obtenerDatosTrabajador = async (req, res) => {
+    const { idTrabajador, curp, nombre, apellido, fecha_nacimiento, fecha_contratacion } = req.session;
+    if (!idTrabajador) return res.json({ ok: false, mensaje: 'No se encontró el ID del trabajador en la sesión' });
 
-    let { idTrabajador, curp, nombre, apellido, fecha_nacimiento, fecha_contratacion, tipo } = req.session;
-
-    if (!idTrabajador) {
-        return res.json({ ok: false, mensaje: 'No se encontró el ID del trabajador en la sesión' });
-    }
-
-    Trabajador.obtenerTurnos(idTrabajador, (err, turnos) => {
-        if (err) {
-            console.error('Error al obtener turnos:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-        let turnosR = turnos[0];
+    try {
+        const turnos = await Trabajador.obtenerTurnos(idTrabajador);
+        const turnosR = turnos[0];
         const turnosFormateados = turnosR.map(turno => {
-            const fechaLocalStr = new Date(turno.fecha).toLocaleString('en-US', {
-                timeZone: 'America/Mexico_City'
-            });
+            const fechaLocalStr = new Date(turno.fecha).toLocaleString('en-US', { timeZone: 'America/Mexico_City' });
             const fechaLocal = new Date(fechaLocalStr);
-
-            const dia = fechaLocal.toLocaleDateString('es-MX', {
-                weekday: 'long'
-            });
+            const dia = fechaLocal.toLocaleDateString('es-MX', { weekday: 'long' });
             const fechaISO = fechaLocal.toISOString().split('T')[0];
-
-            return {
-                dia,
-                fecha: fechaISO,
-                rol: turno.nombre_rol
-            };
+            return { dia, fecha: fechaISO, rol: turno.nombre_rol };
         });
-        console.log(turnosFormateados);
-        return res.json({
+        res.json({
             ok: true,
-            trabajador: {
-                id: idTrabajador,
-                curp: curp,
-                nombre: nombre,
-                apellido: apellido,
-                fecha_nacimiento: fecha_nacimiento,
-                fecha_contratacion: fecha_contratacion
-            },
+            trabajador: { id: idTrabajador, curp, nombre, apellido, fecha_nacimiento, fecha_contratacion },
             turnos: turnosFormateados
         });
-    });
+    } catch (err) {
+        console.error('Error al obtener turnos:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
 };
 
-exports.registrarOferta = (req, res) => {
+exports.registrarOferta = async (req, res) => {
     const { folio, tipo, id_trab, contra } = req.body;
-
     if (!folio || !tipo || !id_trab || !contra) {
         return res.json({ ok: false, mensaje: 'Todos los campos son obligatorios' });
     }
+    try {
+        await Trabajador.registrarOferta(folio, tipo, id_trab, contra);
+        res.json({ ok: true, mensaje: 'Oferta registrada correctamente' });
+    } catch (err) {
+        console.error('Error al registrar oferta:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
+};
 
-    Trabajador.registrarOferta(folio, tipo, id_trab, contra, (err, results) => {
-        if (err) {
-            console.error('Error al registrar oferta:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
-        return res.json({ ok: true, mensaje: 'Oferta registrada correctamente' });
-    });
-}
-
-exports.obtenerSalaDelDia = (req, res) => {
+exports.obtenerSalaDelDia = async (req, res) => {
     const { idTrabajador } = req.session;
-
-    if (!idTrabajador) {
-        return res.json({ ok: false, mensaje: 'No se encontró el ID del trabajador en la sesión' });
-    }
-
-    Trabajador.obtenerSalaDelDia(idTrabajador, (err, results) => {
-        if (err) {
-            console.error('Error al obtener sala del día:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+    if (!idTrabajador) return res.json({ ok: false, mensaje: 'No se encontró el ID del trabajador en la sesión' });
+    try {
+        const results = await Trabajador.obtenerSalaDelDia(idTrabajador);
         const sala = results[0][0];
-        if (!sala) {
-            return res.json({ ok: false, mensaje: 'El trabajador no tiene encargado sala hoy' });
-        }
+        if (!sala) return res.json({ ok: false, mensaje: 'El trabajador no tiene encargado sala hoy' });
+        res.json({ ok: true, sala });
+    } catch (err) {
+        console.error('Error al obtener sala del día:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
+};
 
-        return res.json({ ok: true, sala });
-    });
-}
-
-exports.obtenerFuncionesDeLaSala = (req, res) => {
+exports.obtenerFuncionesDeLaSala = async (req, res) => {
     const { sala } = req.params;
-
-    if (!sala) {
-        return res.json({ ok: false, mensaje: 'ID de sala requerido' });
+    if (!sala) return res.json({ ok: false, mensaje: 'ID de sala requerido' });
+    try {
+        const results = await Trabajador.obtenerFuncionesDeLaSala(sala);
+        const funciones = results[0].map(funcion => ({
+            id: funcion.ID_funcion,
+            fecha: funcion.fecha,
+            hora: funcion.hora,
+            pelicula: funcion.titulo,
+            sala: funcion.Num_sala,
+            tipo: funcion.tipo_sala,
+            precio: funcion.precio,
+            ancho: funcion.ancho_grid,
+            alto: funcion.alto_grid,
+        }));
+        res.json({ ok: true, funciones });
+    } catch (err) {
+        console.error('Error al obtener funciones de la sala:', err);
+        res.json({ ok: false, mensaje: err.message });
     }
+};
 
-    Trabajador.obtenerFuncionesDeLaSala(sala, (err, results) => {
-        if (err) {
-            console.error('Error al obtener funciones de la sala:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
-        const funciones = results[0].map(funcion => {
-            return {
-                id: funcion.ID_funcion,
-                fecha: funcion.fecha,
-                hora: funcion.hora,
-                pelicula: funcion.titulo,
-                sala: funcion.Num_sala,
-                tipo: funcion.tipo_sala,
-                precio: funcion.precio,
-                ancho: funcion.ancho_grid,
-                alto: funcion.alto_grid,
-            };
-        });
-
-        return res.json({ ok: true, funciones });
-    });
-}
-
-exports.obtenerSala = (req, res) => {
+exports.obtenerSala = async (req, res) => {
     const sala = req.params.sala;
-
-    if (!sala) {
-        return res.status(400).json({ ok: false, mensaje: 'ID de sala no proporcionado.' });
-    }
-
-    Trabajador.traerSala(sala, (err, results) => {
-        if (err) {
-            console.error('Error al traer sala:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+    if (!sala) return res.status(400).json({ ok: false, mensaje: 'ID de sala no proporcionado.' });
+    try {
+        const results = await Trabajador.traerSala(sala);
         const resp = results[0][0];
-
         const info = {
             Num_sala: resp.Num_sala,
             tipo: resp.tipo_sala,
             precio: resp.precio,
             ancho: resp.ancho_grid,
             alto: resp.alto_grid,
-        }
-
-        return res.json({ ok: true, info, sala: results[0] });
-    });
-}
-
-exports.obtenerAsientosDisponibles = (req, res) => {
-    const funcion = req.params.funcion;
-
-    if (!funcion) {
-        return res.status(400).json({ ok: false, mensaje: 'ID de función no proporcionado.' });
+        };
+        res.json({ ok: true, info, sala: results[0] });
+    } catch (err) {
+        console.error('Error al traer sala:', err);
+        res.json({ ok: false, mensaje: err.message });
     }
+};
 
-    Trabajador.traerAsientos(funcion, (err, results) => {
-        if (err) {
-            console.error('Error al traer asientos:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
-        return res.json({ ok: true, asientos: results[0] });
-    });
-}
-
-
-
+exports.obtenerAsientosDisponibles = async (req, res) => {
+    const funcion = req.params.funcion;
+    if (!funcion) return res.status(400).json({ ok: false, mensaje: 'ID de función no proporcionado.' });
+    try {
+        const results = await Trabajador.traerAsientos(funcion);
+        res.json({ ok: true, asientos: results[0] });
+    } catch (err) {
+        console.error('Error al traer asientos:', err);
+        res.json({ ok: false, mensaje: err.message });
+    }
+};

@@ -1,6 +1,5 @@
 const path = require('path');
 const Admin = require('../models/adminModel');
-const e = require('express');
 
 exports.mostrarPanelAdmin = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/index-admin.html'));
@@ -27,16 +26,13 @@ exports.mostrarFormularioAsignarFunciones = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/registrar-funcion.html'));
 }
 
-exports.accesoAdmin = (req, res) => {
+exports.accesoAdmin = async (req, res) => {
     const { id, contraseña } = req.body;
 
-    Admin.accesoAdmin(id, contraseña, (err, results) => {
-        if (err) {
-            console.error('Error al iniciar sesión:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+    try {
+        const results = await Admin.accesoAdmin(id, contraseña);
         const mensaje = results[0][0].mensaje;
+
         if (mensaje === "ACCESO") {
             let perfil = results[0][0];
             req.session.idAdmin = "admin";
@@ -46,99 +42,92 @@ exports.accesoAdmin = (req, res) => {
         } else {
             return res.json({ ok: false, mensaje });
         }
-    });
+    } catch (err) {
+        console.error('Error al iniciar sesión:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.asignarRol = (req, res) => {
+exports.asignarRol = async (req, res) => {
     const { fecha, trabajador, rol } = req.body;
 
-    console.log(fecha, trabajador, rol);
-
-    Admin.asignarRol(fecha, trabajador, rol, (err) => {
-        if (err) {
-            console.error('Error al asignar rol:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
-        return res.json({ ok: true, mensaje: "Trabajador asignado con exito" });
-    });
+    try {
+        await Admin.asignarRol(fecha, trabajador, rol);
+        return res.json({ ok: true, mensaje: "Trabajador asignado con éxito" });
+    } catch (err) {
+        console.error('Error al asignar rol:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.traerTodosTrabajadores = (req, res) => {
-    Admin.traerTodosTrabajadores((err, results) => {
-        if (err) {
-            console.error('Error al traer trabajadores:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+exports.traerTodosTrabajadores = async (req, res) => {
+    try {
+        const results = await Admin.traerTodosTrabajadores();
         return res.json({ ok: true, trabajadores: results[0] });
-    });
+    } catch (err) {
+        console.error('Error al traer trabajadores:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.traerTodosRoles = (req, res) => {
-    Admin.traerTodosRoles((err, results) => {
-        if (err) {
-            console.error('Error al traer roles:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+exports.traerTodosRoles = async (req, res) => {
+    try {
+        const results = await Admin.traerTodosRoles();
         return res.json({ ok: true, roles: results[0] });
-    });
+    } catch (err) {
+        console.error('Error al traer roles:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.traerTodasSalas = (req, res) => {
-    Admin.traerTodasSalas((err, results) => {
-        if (err) {
-            console.error('Error al traer salas:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+exports.traerTodasSalas = async (req, res) => {
+    try {
+        const results = await Admin.traerTodasSalas();
         return res.json({ ok: true, salas: results[0] });
-    });
+    } catch (err) {
+        console.error('Error al traer salas:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.asignarSala = (req, res) => {
-    const { fecha, trabajador, rol, sala } = req.body; 
-    Admin.asignarSala(fecha, trabajador, rol, sala, (err) => {
-        if (err) {
-            console.error('Error al asignar sala:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
+exports.asignarSala = async (req, res) => {
+    const { fecha, trabajador, rol, sala } = req.body;
 
-        return res.json({ ok: true, mensaje: "Sala asignada con exito" });
-    });
+    try {
+        await Admin.asignarSala(fecha, trabajador, rol, sala);
+        return res.json({ ok: true, mensaje: "Sala asignada con éxito" });
+    } catch (err) {
+        console.error('Error al asignar sala:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.traerTodasPeliculas = (req, res) => {
-    Admin.traerTodasPeliculas((err, results) => {
-        if (err) {
-            console.error('Error al traer peliculas:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+exports.traerTodasPeliculas = async (req, res) => {
+    try {
+        const results = await Admin.traerTodasPeliculas();
         return res.json({ ok: true, peliculas: results[0] });
-    });
+    } catch (err) {
+        console.error('Error al traer peliculas:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
-exports.registrarFuncion = (req, res) => {
+exports.registrarFuncion = async (req, res) => {
     const { ID_pelicula, Num_sala, dia, hora } = req.body;
 
-    console.log(ID_pelicula, Num_sala, dia, hora);
-
-    Admin.registrarFuncion(ID_pelicula, Num_sala, dia, hora, (err) => {
-        if (err) {
-            console.error('Error al registrar función:', err.stack);
-            return res.json({ ok: false, mensaje: err.message });
-        }
-
+    try {
+        await Admin.registrarFuncion(ID_pelicula, Num_sala, dia, hora);
         return res.json({ ok: true, mensaje: "Función registrada con éxito" });
-    });
+    } catch (err) {
+        console.error('Error al registrar función:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
 }
 
 exports.salirAdmin = (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            console.error('Error al cerrar sesión:', err.stack);
+            console.error('Error al cerrar sesión:', err);
             return res.json({ ok: false, mensaje: err.message });
         }
         res.redirect('/admin');
