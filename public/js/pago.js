@@ -169,6 +169,8 @@ card.on('change', event => {
 });
 
 function realizarCompra() {
+  document.getElementById('success-message').style.display = 'none';
+  document.getElementById('error-message').style.display = 'none';
   stripe.createToken(card).then(result => {
     if (result.error) {
       document.getElementById('card-errors').textContent = result.error.message;
