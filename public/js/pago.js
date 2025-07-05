@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const codigo = document.getElementById('coupon').value.trim();
     if (codigo !== '') {
       aplicarDescuento(codigo);
+      console.log('Verificando cupón:', codigo);
     } else {
       mostrarEstadoCupon("Ingresa un código de cupón.", false);
     }
@@ -52,7 +53,7 @@ function calcularYMostrarPrecios(tipoDescuento = null) {
   datos.asientosSeleccionados.forEach((asiento, index) => {
     let precio = precioUnitario;
 
-    if (tipoDescuento === "boletos gratis" && index === 0) {
+    if (tipoDescuento === "boletos gratis") {
       precio = 0;
     } else if (tipoDescuento === "Entradas 2X1" && index % 2 !== 0) {
       precio = 0;
@@ -66,6 +67,10 @@ function calcularYMostrarPrecios(tipoDescuento = null) {
   subtotal = preciosPorBoleto.reduce((sum, val) => sum + val, 0);
   iva = subtotal * 0.16;
   total = subtotal + iva;
+
+  console.log('Subtotal:', subtotal);
+  console.log('IVA:', iva);
+  console.log('Total:', total);
 
   const precios = document.querySelectorAll('.price-details div:nth-child(2) p');
   precios[0].textContent = `$${subtotal.toFixed(2)}`;
@@ -91,6 +96,7 @@ function aplicarDescuento(codigo) {
 
         mostrarEstadoCupon(`Cupón aceptado. Tipo: ${tipo}`, true);
         calcularYMostrarPrecios(tipo);
+        console.log('Cupón aplicado:', tipo);
         bloquearCupon();
       } else {
         mostrarEstadoCupon('Cupón no válido.', false);

@@ -29,8 +29,8 @@ exports.guardarAsientosSeleccionados = (req, res) => {
   }
   if (req.session.compra) {
     req.session.compra.asientosSeleccionados = asientosSeleccionados;
-    const redirectTo = req.originalUrl.startsWith('/trabajador') 
-      ? '/trabajador/compra/metodo-de-pago' 
+    const redirectTo = req.originalUrl.startsWith('/trabajador')
+      ? '/trabajador/compra/metodo-de-pago'
       : '/compra/metodo-de-pago';
     return res.json({ ok: true, mensaje: 'Asientos seleccionados correctamente.', redirectTo });
   } else {
@@ -163,8 +163,13 @@ exports.pagarConStripe = async (req, res) => {
     return res.status(400).json({ ok: false, mensaje: 'Datos de pago incompletos.' });
   }
 
+  //Si el total es 0, aceptamos el pago sin procesar con Stripe
+  if (parseFloat(totalPagar) === 0) {
+    return res.json({ ok: true, mensaje: 'Pago procesado correctamente sin cargo.' });
+  }
+
   try {
-const total = parseFloat(totalPagar);
+    const total = parseFloat(totalPagar);
     const charge = await stripe.charges.create({
       amount: total * 100, // Stripe espera el monto en centavos
       currency: 'mxn',
