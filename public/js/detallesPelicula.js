@@ -13,7 +13,8 @@ async function loadMovieDetails() {
             const pelicula = data.pelicula;
 
             // Insertar los datos de la película en los elementos correspondientes
-            document.getElementById('movie-image').src = `../images/peliculas/${pelicula.imagen}`;  // Asegúrate de que la imagen esté en el path correcto
+            let imgSrc = pelicula.imagen;
+            document.getElementById('movie-image').src = `../images/peliculas/${imgSrc}`;  // Asegúrate de que la imagen esté en el path correcto
             document.getElementById('movie-title').innerText = pelicula.titulo;
             document.getElementById('movie-description').innerText = pelicula.descripcion;
             document.getElementById('movie-rating').innerHTML = `<strong>Clasificación:</strong> ${pelicula.clasificacion}`;
