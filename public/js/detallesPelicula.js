@@ -14,6 +14,12 @@ async function loadMovieDetails() {
 
             // Insertar los datos de la película en los elementos correspondientes
             let imgSrc = pelicula.imagen;
+            // Cambiar la extensión de la imagen a webp si es necesario
+            if (imgSrc.endsWith('.jpg') || imgSrc.endsWith('.jpeg')) {
+                imgSrc = imgSrc.replace(/\.jpe?g$/, '.webp');
+            } else if (imgSrc.endsWith('.png')) {
+                imgSrc = imgSrc.replace(/\.png$/, '.webp');
+            }
             document.getElementById('movie-image').src = `../images/peliculas/${imgSrc}`;  // Asegúrate de que la imagen esté en el path correcto
             document.getElementById('movie-title').innerText = pelicula.titulo;
             document.getElementById('movie-description').innerText = pelicula.descripcion;
