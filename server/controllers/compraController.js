@@ -1,5 +1,7 @@
 const path = require('path');
 const Compra = require('../models/compraModel');
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 exports.guardarFuncionSeleccionada = (req, res) => {
   const { id, titulo, genero, clasificacion, num_sala, precio, fecha, hora } = req.body;
@@ -153,4 +155,28 @@ exports.datosCompra = (req, res) => {
   }
 };
 
+exports.pagarConStripe = async (req, res) => {
+  const { token, totalPagar } = req.body;
+  const datos = req.session.compra;
+
+  if (!token || !totalPagar || !datos || !datos.asientosSeleccionados) {
+    return res.status(400).json({ ok: false, mensaje: 'Datos de pago incompletos.' });
+  }
+
+  try {
+const total = parseFloat(totalPagar);
+    const charge = await stripe.charges.create({
+      amount: total * 100, // Stripe espera el monto en centavos
+      currency: 'mxn',
+      source: token.id,
+      description: `Compra de boletos para ${datos.titulo}`,
+    });
+
+    console.log('Pago exitoso:', charge);
+    return res.json({ ok: true, mensaje: 'Pago procesado correctamente.', charge });
+  } catch (error) {
+    console.error('Error al procesar el pago con Stripe:', error);
+    return res.status(500).json({ ok: false, mensaje: error.message });
+  }
+};
 

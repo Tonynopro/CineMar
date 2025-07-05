@@ -133,70 +133,139 @@ function crearVenta() {
     });
 }
 
-function realizarCompra() {
-  const metodoPago = document.getElementById('metPago').value;
-  const codigoCupon = document.getElementById('coupon').value.trim();
-  console.log(datos)
-  crearVenta() // Aquí obtienes el idVenta primero
-    .then(idVenta => {
-      const promesas = datos.asientosSeleccionados.map((asiento, index) => {
-        const precio = preciosPorBoleto[index];
-        const subtotalBoleto = precio;
-        const ivaBoleto = subtotalBoleto * 0.16;
-        const totalBoleto = subtotalBoleto + ivaBoleto;
-      
-        const compra = {
-          titulo: datos.titulo,
-          genero: datos.genero,
-          clasificacion: datos.clasificacion,
-          sala: datos.num_sala,
-          filaAsiento: asiento.fila,
-          numeroAsiento: asiento.numero,
-          subtotal: subtotalBoleto,
-          iva: ivaBoleto,
-          total: totalBoleto,
-          oferta: codigoCupon,
-          metodoPago: metodoPago,
-          tipoCompra: "aplicacion",
-          cliente: datos.idCliente,
-          idVenta: idVenta,
-          fecha: datos.fecha,
-          hora: datos.hora
-        };
-      
-        return fetch('/compra/comprarBoleto', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(compra)
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (!data.ok) throw new Error(data.mensaje || 'Error en la compra del boleto');
-            return data;
-          });
-      });      
+const style = {
+  base: {
+    color: '#fff',              // texto blanco
+    fontSize: '16px',
+    '::placeholder': {
+      color: '#bbb'             // placeholder gris claro
+    },
+    ':-webkit-autofill': {
+      color: '#fff',
+    },
+    '::selection': {
+      backgroundColor: '#ff5722',
+      color: '#fff'
+    }
+  },
+  invalid: {
+    color: '#ff6f61',           // rojo para errores
+    iconColor: '#ff6f61'
+  }
+};
 
-      return Promise.all(promesas);
+const stripe = Stripe('pk_test_51RhNi8Q9N7hbwrlCmev5MqDVCaNdEZLzIpcvC0Qn74bR2fCzdBHfkUifLjfGKvmIzmUfkCQg1SGV0rX8mwKaIlqI00MrnZEpB0', { locale: 'es' });
+const elements = stripe.elements();
+const card = elements.create('card', { style: style });
+card.mount('#card-element');
+
+card.on('change', event => {
+  const displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+function realizarCompra() {
+  stripe.createToken(card).then(result => {
+    if (result.error) {
+      document.getElementById('card-errors').textContent = result.error.message;
+      return;
+    }
+
+    const token = result.token; // <-- ENVÍA TODO el objeto token
+    const metodoPago = document.getElementById('metPago').value;
+    const codigoCupon = document.getElementById('coupon').value.trim();
+
+    // Mandar token al backend primero
+    fetch('/compra/pagarStripe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: token,
+        totalPagar: total.toFixed(2) // tu total ya calculado, en pesos
+      })
     })
-    .then(resultados => {
-      console.log('Todas las compras realizadas:', resultados);
-      document.getElementById('success-message').style.display = 'block';
-      document.getElementById('error-message').style.display = 'none';
-      document.getElementById('submit-payment').disabled = true;
-      document.getElementById('submit-payment').textContent = 'Compra realizada';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 1000);
-    })
-    .catch(error => {
-      console.error('Error en la compra:', error.message);
-      document.getElementById('error-message').style.display = 'block';
-      document.getElementById('error-message').textContent = error.message + ' - Intenta nuevamente o vuelve atrás.';
-      document.getElementById('success-message').style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+      .then(res => res.json())
+      .then(data => {
+        if (!data.ok) throw new Error(data.mensaje);
+
+        // ✅ Solo si pago fue exitoso → continuar con lógica de CineMar
+        return crearVenta().then(idVenta => {
+          const promesas = datos.asientosSeleccionados.map((asiento, index) => {
+            const precio = preciosPorBoleto[index];
+            const subtotalBoleto = precio;
+            const ivaBoleto = subtotalBoleto * 0.16;
+            const totalBoleto = subtotalBoleto + ivaBoleto;
+
+            const compra = {
+              titulo: datos.titulo,
+              genero: datos.genero,
+              clasificacion: datos.clasificacion,
+              sala: datos.num_sala,
+              filaAsiento: asiento.fila,
+              numeroAsiento: asiento.numero,
+              subtotal: subtotalBoleto,
+              iva: ivaBoleto,
+              total: totalBoleto,
+              oferta: codigoCupon,
+              metodoPago: metodoPago,
+              tipoCompra: "aplicacion",
+              cliente: datos.idCliente,
+              idVenta: idVenta,
+              fecha: datos.fecha,
+              hora: datos.hora
+            };
+
+            return fetch('/compra/comprarBoleto', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(compra)
+            }).then(res => res.json());
+          });
+
+          return Promise.all(promesas);
+        });
+      })
+      .then(resultados => {
+        // Compra finalizada
+        document.getElementById('success-message').style.display = 'block';
+        document.getElementById('submit-payment').disabled = true;
+        document.getElementById('submit-payment').textContent = 'Compra realizada';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => window.location.href = '/', 1000);
+      })
+      .catch(error => {
+
+        let mensaje = error.message;
+        if (mensaje.includes('Your card number is incomplete')) {
+          mensaje = 'El número de la tarjeta está incompleto.';
+        } else if (mensaje.includes('Your card\'s security code is incomplete')) {
+          mensaje = 'El código de seguridad está incompleto.';
+        } else if (mensaje.includes('Your card has expired')) {
+          mensaje = 'Tu tarjeta ha expirado.';
+        } else if (mensaje.includes('Your card was declined')) {
+          mensaje = 'Tu tarjeta fue rechazada.';
+        } else if (mensaje.includes('Your card\'s security code is incorrect')) {
+          mensaje = 'El código de seguridad de tu tarjeta es incorrecto.';
+        }
+
+        console.error('Error:', mensaje);
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = mensaje;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+  }
+
+  );
 }
+
+
+
+
+
 
 
 

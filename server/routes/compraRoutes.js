@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const compraController = require('../controllers/compraController');
+
 // Ruta para guardar la función seleccionada
 router.post('/seleccionar-funcion', compraController.guardarFuncionSeleccionada);
 
@@ -33,5 +34,8 @@ router.post('/comprarBoleto', compraController.comprarBoleto);
 
 // Ruta para obtener los datos de compra
 router.get('/datosCompra', compraController.datosCompra);
+
+// Ruta para pagar con Stripe
+router.post('/pagarStripe', compraController.pagarConStripe);
 
 module.exports = router;
