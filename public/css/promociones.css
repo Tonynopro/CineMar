@@ -51,3 +51,31 @@ h2 {
     font-size: 0.95em;
     line-height: 1.4;
 }
+
+.promo-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.notificacion {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background-color: #00bcd4;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+.notificacion.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+.notificacion.error {
+    background-color: #e53935;
+}
