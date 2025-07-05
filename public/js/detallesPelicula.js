@@ -31,8 +31,16 @@ async function loadMovieDetails() {
                 actorDiv.classList.add('actor');
 
                 const actorImg = document.createElement('img');
-                actorImg.src = `../images/actores/${actor.imagen}`; // Asegúrate de que la imagen esté en el path correcto
+                let imgSrc = actor.imagen;
+                // Cambiar la extensión de la imagen a webp si es necesario
+                if (imgSrc.endsWith('.jpg') || imgSrc.endsWith('.jpeg')) {
+                    imgSrc = imgSrc.replace(/\.jpe?g$/, '.webp');
+                } else if (imgSrc.endsWith('.png')) {
+                    imgSrc = imgSrc.replace(/\.png$/, '.webp');
+                }
+                actorImg.src = `../images/actores/${imgSrc}`; // Asegúrate de que la imagen esté en el path correcto
                 actorImg.alt = actor.nombre;
+                actorImg.loading = 'lazy'; // Cargar la imagen de forma diferida
                 actorDiv.appendChild(actorImg);
 
                 const actorName = document.createElement('p');

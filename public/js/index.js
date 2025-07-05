@@ -1,35 +1,35 @@
 // ==================== SLIDER DE PROMOCIONES ====================
 const slides = [
   {
-    image: "../images/promos/promoOmar.jpg",
+    image: "../images/promos/promoOmar.webp",
     title: "¡LA VENIDA DE OMAR!",
     description: "Lo más esperado por los fans de Omar.",
     actionText: "Próximamente...",
     link: "#promo1"
   },
   {
-    image: "../images/promos/promoHector.jpg",
+    image: "../images/promos/promoHector.webp",
     title: "OMG ES HECTOR",
     description: "¡No te lo puedes perder!",
     actionText: "Realmente el botón no hace nada",
     link: "#promo2"
   },
   {
-    image: "../images/promos/promoFansOmar.jpg",
+    image: "../images/promos/promoFansOmar.webp",
     title: "SI SON LOS FANS DE OMAR",
     description: "¡SI TE LO PUEDES PERDER!",
     actionText: "Realmente el botón sigue sin hacer nada",
     link: "#promo3"
   },
   {
-    image: "../images/promos/omarVsSinicoPromo.jpg",
+    image: "../images/promos/omarVsSinicoPromo.webp",
     title: "¡OMAR VS SINICO!",
     description: "Finalmente se enfrentan en la pantalla grande.",
     actionText: "Sigue la historia",
     link: "#promo4"
   },
   {
-  image: "../images/promos/promoFans.jpg",
+  image: "../images/promos/promoFans.webp",
   title: "DE LA SAGA DE FANS DE OMAR",
   description: "La saga continúa con un nuevo capítulo.",
   actionText: "Próximamente",
@@ -109,13 +109,20 @@ async function loadMovies() {
 
 
       filteredMovies.forEach(movie => {
-        const image = "../images/peliculas/" + movie.imagen;
+        let img = movie.imagen;
+        // Cambiar la extension de cual sea a la imagen a webp
+        if (img.endsWith('.jpg') || img.endsWith('.jpeg')) {
+          img = img.replace(/\.jpe?g$/, '.webp');
+        } else if (img.endsWith('.png')) {
+          img = img.replace(/\.png$/, '.webp');
+        }
+        const image = "../images/peliculas/" + img;
         const movieDiv = document.createElement("div");
         movieDiv.classList.add("movie");
 
         movieDiv.innerHTML = `
           <a href="/info?id=${movie.ID_pelicula}" class="imageMovie">
-            <img src="${image}" alt="${movie.titulo}">
+            <img src="${image}" alt="${movie.titulo}" loading="lazy">
           </a>
           <div class="infoMovie">
             <div class="clasificacion">${movie.clasificacion}</div>

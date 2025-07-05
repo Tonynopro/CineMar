@@ -1,8 +1,8 @@
 const ads = [
   { img: '../images/popups/popup1.gif', link: 'https://deltarune.com' },
-  { img: '../images/popups/chivaColaAnuncio.jpg', link: 'https://na-portal.omnilife.com/productos/chiva-cola-4310406' },
-  { img: '../images/popups/megaAnuncio.jpg', link: 'https://www.instagram.com/mega_mexico/?hl=es' },
-  { img: '../images/popups/timHortons.jpg', link: 'https://timhortonsmx.com/es/index.html' },
+  { img: '../images/popups/chivaColaAnuncio.webp', link: 'https://na-portal.omnilife.com/productos/chiva-cola-4310406' },
+  { img: '../images/popups/megaAnuncio.webp', link: 'https://www.instagram.com/mega_mexico/?hl=es' },
+  { img: '../images/popups/timHortons.webp', link: 'https://timhortonsmx.com/es/index.html' },
   { img: '../images/popups/popup2.gif', link: 'https://store.steampowered.com/app/2701030/MINDWAVE/' },
   { img: '../images/popups/caliente.gif', link: 'https://www.caliente.mx' },
 ];
@@ -53,6 +53,7 @@ function createAd() {
 
   const img = document.createElement('img');
   img.src = ad.img;
+  img.loading = 'lazy';
   link.appendChild(img);
 
   popup.appendChild(close);
