@@ -29,12 +29,12 @@ const slides = [
     link: "#promo4"
   },
   {
-  image: "../images/promos/promoFans.webp",
-  title: "DE LA SAGA DE FANS DE OMAR",
-  description: "La saga continúa con un nuevo capítulo.",
-  actionText: "Próximamente",
-  link: "#promo5"
-}
+    image: "../images/promos/promoFans.webp",
+    title: "DE LA SAGA DE FANS DE OMAR",
+    description: "La saga continúa con un nuevo capítulo.",
+    actionText: "Próximamente",
+    link: "#promo5"
+  }
 ];
 
 let currentSlide = 0;
@@ -50,9 +50,12 @@ const slideAction = document.querySelector(".actionSlide");
 function renderSlide(index) {
   const slide = slides[index];
 
-  // Añadimos transición de desvanecimiento suave y deslizar
+  // Aplica la clase de fade-out solo a la imagen
   slideImage.classList.add("fade-out");
-  slideImage.classList.add("slide-in"); // Agregamos la animación de deslizamiento lateral
+
+  // También preparamos el cuadro de info para reiniciar animación
+  const infoSlide = document.querySelector(".infoSlide");
+
   setTimeout(() => {
     slideImage.src = slide.image;
     slideTitle.textContent = slide.title;
@@ -60,10 +63,20 @@ function renderSlide(index) {
     slideDesc.textContent = slide.description;
     slideAction.textContent = slide.actionText;
     slideAction.href = slide.link;
+
+    // Reinicia animación imagen
     slideImage.classList.remove("fade-out");
-    slideImage.classList.remove("slide-in"); // Eliminamos la clase de animación
-  }, 300); // Tiempo para completar el desvanecimiento
+    slideImage.classList.remove("slide-anim");
+    void slideImage.offsetWidth;
+    slideImage.classList.add("slide-anim");
+
+    // Reinicia animación del cuadro negro (infoSlide)
+    infoSlide.classList.remove("info-anim");
+    void infoSlide.offsetWidth;
+    infoSlide.classList.add("info-anim");
+  }, 10);
 }
+
 
 function startSlideInterval() {
   slideInterval = setInterval(() => {

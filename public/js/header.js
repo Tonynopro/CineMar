@@ -13,9 +13,7 @@ const renderUserMenu = () => {
             <a href="/cliente/salir">Cerrar sesión</a>
         `;
     } else {
-        userMenu.innerHTML = `
-            <a href="/cliente/menu">Ingresar</a>
-        `;
+        userMenu.innerHTML = `<a href="/cliente/menu">Ingresar</a>`;
     }
 };
 
@@ -24,11 +22,10 @@ const checkUserLogin = async () => {
         const response = await fetch("/cliente/info_usuario");
         const data = await response.json();
         if (data.ok) {
-            console.log(data);
             userLoggedIn = true;
             userName = data.data.nombre || "Usuario";
         }
-    } catch (error) {
+    } catch {
         userLoggedIn = false;
     } finally {
         renderUserMenu();
@@ -36,16 +33,56 @@ const checkUserLogin = async () => {
 };
 
 userIcon.addEventListener("click", () => {
-    const isVisible = userMenu.style.display === "flex";
-    userMenu.style.display = isVisible ? "none" : "flex";
-
-    if (!isVisible) {
+    const visible = userMenu.classList.contains("show");
+    if (!visible) {
         checkUserLogin();
     }
+    userMenu.classList.toggle("show");
 });
 
 document.addEventListener("click", (e) => {
     if (!userIcon.contains(e.target) && !userMenu.contains(e.target)) {
-        userMenu.style.display = "none";
+        userMenu.classList.remove("show");
     }
 });
+
+window.addEventListener("scroll", () => {
+    const header = document.querySelector("header");
+    header.classList.toggle("scrolled", window.scrollY > 20);
+});
+
+let lastScrollTop = 0;
+let ticking = false;
+
+window.addEventListener("scroll", () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      const header = document.querySelector("header");
+      const currentScroll = window.scrollY;
+      const scrollDiff = currentScroll - lastScrollTop;
+
+      // Sombra al hacer scroll
+      header.classList.toggle("scrolled", currentScroll > 20);
+
+      // Contraer
+      if (scrollDiff > 10 && currentScroll > 100) {
+        header.classList.add("compact");
+      } else if (scrollDiff < -10) {
+        header.classList.remove("compact");
+      }
+
+      // Ocultar al bajar, mostrar al subir
+      if (scrollDiff > 10 && currentScroll > 100) {
+        header.classList.add("hidden");
+      } else if (scrollDiff < -10) {
+        header.classList.remove("hidden");
+      }
+
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+      ticking = false;
+    });
+
+    ticking = true;
+  }
+});
+

@@ -1,3 +1,4 @@
+/* ESTRUCTURA BASE */
 header {
   display: flex;
   justify-content: space-between;
@@ -8,131 +9,126 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: box-shadow 0.3s ease;
 }
 
-header .left, 
-header .center, 
+header.scrolled {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+header .left,
+header .center,
 header .right {
   display: flex;
   align-items: center;
   gap: 1.2rem;
 }
 
+/* LOGO */
 header .logo img {
   height: 40px;
-  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+header .logo img:hover {
+  transform: scale(1.08);
 }
 
+/* NAV CENTRAL */
 header .optHead {
   color: #fff;
   font-weight: 500;
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s ease;
 }
-
 header .optHead:hover {
   background-color: #333;
   color: #00bcd4;
+  transform: translateY(-1px);
 }
-
 header .optHead a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
+}
+header .optHead.active {
+  background-color: #00bcd4;
+  color: #000;
 }
 
+/* SELECT CINE */
 header .selectCine {
-  background-color: #333;
+  background-color: #2a2a2a;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-
 header .selectCine label {
   color: #fff;
   font-size: 0.9rem;
-  font-weight: 600;
 }
-
 header .selectCine select {
   background-color: #222;
-  border: 1px solid #444;
-  border-radius: 6px;
   color: #fff;
+  border: 1px solid #444;
   padding: 0.3rem 0.6rem;
+  border-radius: 6px;
   outline: none;
   font-size: 0.9rem;
+  transition: border-color 0.3s;
 }
-
 header .selectCine select:hover,
 header .selectCine select:focus {
   border-color: #00bcd4;
 }
 
+/* USER ICON */
 header .userIcon {
   background-color: #333;
-  padding: 0.6rem;
   border-radius: 50%;
+  padding: 0.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
 }
-
 header .userIcon:hover {
   background-color: #444;
+  transform: scale(1.05);
 }
-
 header .userIcon img {
   width: 26px;
   height: 26px;
 }
 
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  header .left,
-  header .right {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  header .selectCine {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  header .selectCine label,
-  header .selectCine select {
-    font-size: 0.8rem;
-  }
-}
-
-header .optHead.active {
-  background-color: #00bcd4;
-  color: #000;
-}
-
+/* USER MENU ANIMADO */
 .userMenu {
   position: absolute;
-  top: 60px; /* ajusta según tamaño del header */
-  right: 2rem;
+  top: 60px;
+  right: 0;
   background-color: #2a2a2a;
   border: 1px solid #444;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  padding: 0.8rem 0;
-  display: none;
-  flex-direction: column;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0;
   min-width: 200px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
   z-index: 1001;
+}
+
+.userMenu.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .userMenu a,
@@ -140,11 +136,7 @@ header .optHead.active {
   color: #fff;
   padding: 0.6rem 1rem;
   text-decoration: none;
-  transition: background-color 0.2s;
-}
-
-userMenu a {
-  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .userMenu a:hover {
@@ -152,5 +144,71 @@ userMenu a {
   color: #00bcd4;
 }
 
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
 
+  header .center {
+    justify-content: center;
+  }
+
+  header .right {
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  header .selectCine {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Estilo cuando el header está contraído */
+header.compact {
+  padding: 0.4rem 1.2rem;
+  transition: padding 0.3s ease;
+}
+
+header.compact .logo img {
+  height: 30px;
+  transition: height 0.3s ease;
+}
+
+header.compact .optHead {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+header.compact .selectCine {
+  padding: 0.3rem 0.6rem;
+}
+
+header.compact .selectCine label,
+header.compact .selectCine select {
+  font-size: 0.8rem;
+}
+
+header.compact .userIcon {
+  padding: 0.4rem;
+}
+
+header.hidden {
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+}
+
+header {
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease,
+    padding 0.3s ease;
+}
+
+/* Al volver a mostrarse, la transición ocurre automáticamente */
 
