@@ -1,7 +1,8 @@
 const path = require('path');
 const Admin = require('../models/adminModel');
 const sharp = require('sharp');
-const e = require('express');
+const { procesarPoster, guardarImagenActor, guardarTrailer } = require('../middlewares/upload');
+
 
 exports.mostrarPanelAdmin = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/index-admin.html'));
@@ -151,83 +152,66 @@ exports.traerTodosActores = async (req, res) => {
 }
 
 exports.registrarActor = async (req, res) => {
+  try {
     const { nombre } = req.body;
     const archivo = req.file;
 
     if (!nombre || !archivo) {
-        return res.status(400).json({ ok: false, mensaje: 'Faltan nombre o imagen del actor' });
+      return res.status(400).json({ ok: false, mensaje: 'Faltan nombre o imagen del actor' });
     }
 
-    const nombreArchivo = archivo.filename;
-    const rutaOriginal = archivo.path;
-    const rutaWebp = rutaOriginal.replace(path.extname(rutaOriginal), '.webp');
+    const rutaImagen = await guardarImagenActor(archivo.buffer, nombre, archivo.mimetype);
+    
+    const result = await Admin.crearActor(nombre, rutaImagen);
+    const actorCreado = result[0][0];
 
-    try {
-        // Crear copia en .webp
-        await sharp(rutaOriginal)
-            .webp({ quality: 80 })
-            .toFile(rutaWebp);
-
-        // Guardar solo el nombre del archivo original en la base de datos
-        const result = await Admin.crearActor(nombre, nombreArchivo);
-
-        return res.json({ ok: true, mensaje: "Actor registrado con éxito", actor: result[0][0] });
-    } catch (err) {
-        console.error('Error al registrar actor:', err);
-        return res.status(500).json({ ok: false, mensaje: err.message });
-    }
+    return res.json({ ok: true, mensaje: "Actor registrado con éxito", actor: actorCreado });
+  } catch (err) {
+    console.error('Error al registrar actor:', err);
+    return res.status(500).json({ ok: false, mensaje: err.message });
+  }
 };
 
-const { exec } = require('child_process');
-
 exports.registrarPelicula = async (req, res) => {
+  try {
     const { titulo, descripcion, genero, clasificacion, duracion, director, actoresJSON } = req.body;
-    const poster = req.files.poster ? req.files.poster[0] : null;
-    const trailer = req.files.trailer ? req.files.trailer[0] : null;
+    const poster = req.files.poster?.[0];
+    const trailer = req.files.trailer?.[0];
 
     if (!titulo || !descripcion || !genero || !clasificacion || !duracion || !director || !poster) {
-        return res.status(400).json({ ok: false, mensaje: 'Faltan datos para registrar la película' });
+      return res.status(400).json({ ok: false, mensaje: 'Faltan datos obligatorios o póster' });
     }
 
-    const posterPath = poster.filename;
-    const trailerPath = trailer ? trailer.filename : null;
+    const rutaPoster = await procesarPoster(poster.buffer, titulo);
+    let rutaTrailer = null;
 
-    let actores = [];
-    try {
-        actores = JSON.parse(actoresJSON || '[]');
-    } catch (err) {
-        return res.status(400).json({ ok: false, mensaje: 'Error al interpretar los actores' });
+    if (trailer) {
+      rutaTrailer = await guardarTrailer(trailer.buffer, titulo, trailer.mimetype);
     }
 
-    try {
-        const result = await Admin.registrarPelicula({
-            titulo,
-            descripcion,
-            genero,
-            clasificacion,
-            imagen: posterPath,
-            duracion,
-            director,
-            trailer: trailerPath
-        }, actores);
+    const result = await Admin.registrarPelicula({
+      titulo,
+      descripcion,
+      genero,
+      clasificacion,
+      imagen: rutaPoster,
+      duracion,
+      director,
+      trailer: rutaTrailer
+    }, JSON.parse(actoresJSON || '[]'));
 
-        res.json({ ok: true, mensaje: "Película registrada con éxito" });
+    res.json({ ok: true, mensaje: "Película registrada con éxito" });
 
-        // EJECUTAMOS EL SCRIPT EN SEGUNDO PLANO (NO BLOQUEA):
-        exec('node server/bots/generarFunciones', (error, stdout, stderr) => {
-            if (error) {
-                console.error('Error al ejecutar generarFunciones:', error.message);
-                return;
-            }
-            if (stderr) {
-                console.error('stderr generarFunciones:', stderr);
-            }
-            console.log('Salida generarFunciones:', stdout);
-        });
-        
-    } catch (err) {
-        console.error('Error al registrar película:', err);
-        return res.status(500).json({ ok: false, mensaje: err.message });
-    }
+    const { exec } = require('child_process');
+    exec('node server/bots/generarFunciones', (error, stdout, stderr) => {
+      if (error) console.error('Error al ejecutar generarFunciones:', error.message);
+      if (stderr) console.error('stderr generarFunciones:', stderr);
+      console.log('Salida generarFunciones:', stdout);
+    });
+
+  } catch (err) {
+    console.error('Error al registrar película:', err);
+    res.status(500).json({ ok: false, mensaje: err.message });
+  }
 };
 

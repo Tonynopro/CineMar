@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { esAdmin } = require('../middlewares/verificarRol');
 const adminController = require('../controllers/adminController');
-const upload = require('../middlewares/upload');
+const { upload } = require('../middlewares/upload');
+
 
 // Ruta para mostrar el panel de administración
 router.get('/index', esAdmin, adminController.mostrarPanelAdmin);

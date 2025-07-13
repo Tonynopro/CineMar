@@ -153,7 +153,9 @@ async function agregarActorNuevo() {
 
         // Agregar al listado visible
         const fotoURL = pathImages + "actores/" + data.actor.imagen;
-        agregarActorALista({ nombre, rol, foto: fotoURL, id_actor: data.actor.id_actor });
+
+        console.log("datos actor:", { nombre, rol, foto: fotoURL, id_actor: data.actor.ID_actor });
+        agregarActorALista({ nombre, rol, foto: fotoURL, id_actor: data.actor.ID_actor });
 
         // Agrega a la lista interna
         actoresPredefinidos.push({ nombre });

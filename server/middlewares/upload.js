@@ -1,79 +1,27 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const sharp = require('sharp'); // Asegúrate de instalarlo: npm install sharp
+const sharp = require('sharp');
 
-// Convierte texto a camelCase sin acentos
+// Convertir a camelCase y quitar acentos
 function aCamelCase(texto) {
   return texto
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .split(' ')
-    .map((palabra, i) => i === 0 ? palabra : palabra.charAt(0).toUpperCase() + palabra.slice(1))
+    .map((p, i) => i === 0 ? p : p.charAt(0).toUpperCase() + p.slice(1))
     .join('');
 }
 
-// Diccionario para obtener extensión si no existe
+// Diccionario solo para trailers
 const mimeToExt = {
-  'image/jpeg': '.jpg',
-  'image/png': '.png',
-  'image/jpg': '.jpg',
   'video/mp4': '.mp4',
   'video/webm': '.webm',
   'video/ogg': '.ogg'
 };
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    let carpeta = 'uploads';
+const storage = multer.memoryStorage();
 
-    if (file.fieldname === 'archivo' && req.body.tipo === 'actor') carpeta = 'images/actores';
-    else if (file.fieldname === 'poster') carpeta = 'images/peliculas';
-    else if (file.fieldname === 'trailer') carpeta = 'videos/trailers';
-
-    const rutaCompleta = path.join(__dirname, '../../public', carpeta);
-    fs.mkdirSync(rutaCompleta, { recursive: true });
-    cb(null, rutaCompleta);
-  },
-
-  filename: async (req, file, cb) => {
-    try {
-      const baseNombre = req.body.titulo || req.body.nombre || 'archivo';
-      const nombreCamel = aCamelCase(baseNombre);
-
-      // Obtener extensión
-      let ext = path.extname(file.originalname).toLowerCase();
-      if (!ext) {
-        ext = mimeToExt[file.mimetype] || '';
-      }
-
-      const filename = `${nombreCamel}_${file.fieldname}${ext}`;
-      cb(null, filename);
-
-      // Generar .webp si es el poster
-      if (file.fieldname === 'poster') {
-        // Esperar a que el archivo se guarde en disco
-        const originalPath = path.join(__dirname, '../../public/images/peliculas', filename);
-        const webpPath = path.join(__dirname, '../../public/images/peliculas', `${nombreCamel}_poster.webp`);
-
-        // Esperar un poco y luego procesar con sharp
-        setTimeout(() => {
-          sharp(originalPath)
-            .resize(500) // Tamaño estándar, puedes cambiarlo o quitarlo
-            .toFormat('webp')
-            .toFile(webpPath)
-            .then(() => console.log(`Imagen .webp creada: ${webpPath}`))
-            .catch(err => console.error('Error al generar .webp:', err));
-        }, 500); // Esperamos 500ms para asegurar que el archivo original exista
-      }
-    } catch (err) {
-      cb(err);
-    }
-  }
-});
-
-// Filtro de tipos MIME permitidos
 const fileFilter = (req, file, cb) => {
   const permitidos = {
     'archivo': ['image/jpeg', 'image/png', 'image/jpg'],
@@ -85,14 +33,71 @@ const fileFilter = (req, file, cb) => {
   if (tiposValidos.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error(`Tipo de archivo no permitido para ${file.fieldname}: ${file.mimetype}`));
+    cb(new Error(`Tipo no permitido para ${file.fieldname}: ${file.mimetype}`));
   }
 };
 
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 50 * 1024 * 1024 } // 50 MB máximo
+  limits: { fileSize: 50 * 1024 * 1024 }
 });
 
-module.exports = upload;
+// 🎬 Póster en .webp
+async function procesarPoster(buffer, titulo) {
+  const nombre = aCamelCase(titulo);
+  const nombreArchivo = `${nombre}_poster.webp`;
+
+  const outputDir = path.join(__dirname, '../../public/images/peliculas');
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  const outputPath = path.join(outputDir, nombreArchivo);
+
+  await sharp(buffer)
+    .resize(500)
+    .toFormat('webp')
+    .toFile(outputPath);
+
+  return nombreArchivo;
+}
+
+// 🧑 Imagen actor en .webp
+async function guardarImagenActor(buffer, nombre, mimetype) {
+  const nombreLimpio = aCamelCase(nombre);
+  const nombreArchivo = `${nombreLimpio}.webp`;
+
+  const outputDir = path.join(__dirname, '../../public/images/actores');
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  const outputPath = path.join(outputDir, nombreArchivo);
+
+  await sharp(buffer)
+    .resize(300)
+    .toFormat('webp')
+    .toFile(outputPath);
+
+  return nombreArchivo;
+}
+
+// 🎥 Trailer (sin conversión de formato)
+async function guardarTrailer(buffer, nombre, mimetype) {
+  const nombreLimpio = aCamelCase(nombre);
+  const ext = mimeToExt[mimetype] || '.mp4';
+  const nombreArchivo = `${nombreLimpio}_trailer${ext}`;
+
+  const outputDir = path.join(__dirname, '../../public/videos/trailers');
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  const outputPath = path.join(outputDir, nombreArchivo);
+
+  fs.writeFileSync(outputPath, buffer);
+
+  return nombreArchivo;
+}
+
+module.exports = {
+  upload,
+  procesarPoster,
+  guardarImagenActor,
+  guardarTrailer
+};
