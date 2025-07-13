@@ -105,5 +105,5 @@ window.addEventListener('resize', repositionAllPopups);
 
 // Genera popups cada 4 segundos con 50% de probabilidad
 setInterval(() => {
-  if (Math.random() < 0.25) createAd();
-}, 15000);
+  if (Math.random() < 0.15) createAd();
+}, 30000);

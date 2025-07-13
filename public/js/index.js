@@ -108,7 +108,7 @@ renderSlide(currentSlide);
 // ==================== PELÍCULAS DINÁMICAS ====================
 const moviesContainer = document.querySelector(".movies-container");
 const searchInput = document.getElementById("movieSearch");
-//const genreFilter = document.getElementById("genreFilter");
+const genreFilter = document.getElementById("genreFilter");
 
 // Función para cargar las películas desde el backend
 async function loadMovies() {
@@ -117,6 +117,15 @@ async function loadMovies() {
     const data = await response.json();
 
     console.log(data);
+
+    // Poner los generos de las peliculas
+    genreFilter.innerHTML = `
+      <option value="">Selecciona un género</option>
+      ${Array.from(new Set(data.peliculas.map(movie => movie.genero))).map(genre => `
+        <option value="${genre}">${genre}</option>
+      `).join("")}
+    `;
+
     function renderMovies(filteredMovies) {
       moviesContainer.innerHTML = "";
 
@@ -160,12 +169,12 @@ async function loadMovies() {
 
     function applyFilters() {
       const searchTerm = searchInput.value.toLowerCase();
-      //const selectedGenre = genreFilter.value;
+      const selectedGenre = genreFilter.value;
 
       const filtered = data.peliculas.filter(movie => {
         const matchesName = movie.titulo.toLowerCase().includes(searchTerm);
-        //const matchesGenre = selectedGenre === "" || movie.genero === selectedGenre;
-        return matchesName /*&& matchesGenre*/;
+        const matchesGenre = selectedGenre === "" || movie.genero === selectedGenre;
+        return matchesName && matchesGenre;
       });
 
       // Agregamos un efecto de fade-in al renderizar las películas
@@ -177,7 +186,7 @@ async function loadMovies() {
     }
 
     searchInput.addEventListener("input", applyFilters);
-    //genreFilter.addEventListener("change", applyFilters);
+    genreFilter.addEventListener("change", applyFilters);
 
     renderMovies(data.peliculas); // Renderiza todas las películas
   } catch (error) {
