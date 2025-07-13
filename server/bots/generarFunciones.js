@@ -3,7 +3,7 @@ const connection = require('../config/db');
 
 async function llamarProcedimiento() {
   try {
-    const [resultado] = await connection.execute('CALL generarFuncionesAutomaticas(?)', [Math.floor(Math.random() * 5)]);
+    const [resultado] = await connection.execute('CALL generarFuncionesAutomaticas(?)', [100]);
     console.log('✅ Procedimiento ejecutado correctamente');
     process.exit(0);
   } catch (error) {

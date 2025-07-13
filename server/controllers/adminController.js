@@ -1,12 +1,14 @@
 const path = require('path');
 const Admin = require('../models/adminModel');
+const sharp = require('sharp');
+const e = require('express');
 
 exports.mostrarPanelAdmin = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/index-admin.html'));
 }
 
 exports.mostrarFormularioAcceso = (req, res) => {
-    if(req.session.tipo === "admin"){
+    if (req.session.tipo === "admin") {
         return res.redirect('/admin/index');
     }
     req.session.destroy((err) => {
@@ -24,6 +26,10 @@ exports.mostrarFormularioAsignarTrabajadores = (req, res) => {
 
 exports.mostrarFormularioAsignarFunciones = (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/views/registrar-funcion.html'));
+}
+
+exports.mostrarFormularioCrearPelicula = (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/views/crear-pelicula.html'));
 }
 
 exports.accesoAdmin = async (req, res) => {
@@ -133,3 +139,95 @@ exports.salirAdmin = (req, res) => {
         res.redirect('/admin');
     });
 }
+
+exports.traerTodosActores = async (req, res) => {
+    try {
+        const results = await Admin.traerTodosActores();
+        return res.json({ ok: true, actores: results[0] });
+    } catch (err) {
+        console.error('Error al traer actores:', err);
+        return res.json({ ok: false, mensaje: err.message });
+    }
+}
+
+exports.registrarActor = async (req, res) => {
+    const { nombre } = req.body;
+    const archivo = req.file;
+
+    if (!nombre || !archivo) {
+        return res.status(400).json({ ok: false, mensaje: 'Faltan nombre o imagen del actor' });
+    }
+
+    const nombreArchivo = archivo.filename;
+    const rutaOriginal = archivo.path;
+    const rutaWebp = rutaOriginal.replace(path.extname(rutaOriginal), '.webp');
+
+    try {
+        // Crear copia en .webp
+        await sharp(rutaOriginal)
+            .webp({ quality: 80 })
+            .toFile(rutaWebp);
+
+        // Guardar solo el nombre del archivo original en la base de datos
+        const result = await Admin.crearActor(nombre, nombreArchivo);
+
+        return res.json({ ok: true, mensaje: "Actor registrado con éxito", actor: result[0][0] });
+    } catch (err) {
+        console.error('Error al registrar actor:', err);
+        return res.status(500).json({ ok: false, mensaje: err.message });
+    }
+};
+
+const { exec } = require('child_process');
+
+exports.registrarPelicula = async (req, res) => {
+    const { titulo, descripcion, genero, clasificacion, duracion, director, actoresJSON } = req.body;
+    const poster = req.files.poster ? req.files.poster[0] : null;
+    const trailer = req.files.trailer ? req.files.trailer[0] : null;
+
+    if (!titulo || !descripcion || !genero || !clasificacion || !duracion || !director || !poster) {
+        return res.status(400).json({ ok: false, mensaje: 'Faltan datos para registrar la película' });
+    }
+
+    const posterPath = poster.filename;
+    const trailerPath = trailer ? trailer.filename : null;
+
+    let actores = [];
+    try {
+        actores = JSON.parse(actoresJSON || '[]');
+    } catch (err) {
+        return res.status(400).json({ ok: false, mensaje: 'Error al interpretar los actores' });
+    }
+
+    try {
+        const result = await Admin.registrarPelicula({
+            titulo,
+            descripcion,
+            genero,
+            clasificacion,
+            imagen: posterPath,
+            duracion,
+            director,
+            trailer: trailerPath
+        }, actores);
+
+        res.json({ ok: true, mensaje: "Película registrada con éxito" });
+
+        // EJECUTAMOS EL SCRIPT EN SEGUNDO PLANO (NO BLOQUEA):
+        exec('node server/bots/generarFunciones', (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error al ejecutar generarFunciones:', error.message);
+                return;
+            }
+            if (stderr) {
+                console.error('stderr generarFunciones:', stderr);
+            }
+            console.log('Salida generarFunciones:', stdout);
+        });
+        
+    } catch (err) {
+        console.error('Error al registrar película:', err);
+        return res.status(500).json({ ok: false, mensaje: err.message });
+    }
+};
+
