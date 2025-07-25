@@ -81,6 +81,7 @@ function startPage() {
       slideDesc.textContent = slide.description;
       slideAction.textContent = slide.actionText;
       slideAction.href = slide.link;
+      document.querySelector(".imgSlide").href = slide.link;
 
       slideImage.classList.remove("fade-out");
       slideImage.classList.remove("slide-anim");
