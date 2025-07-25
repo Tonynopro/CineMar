@@ -66,6 +66,7 @@ function startPage() {
   const slideTitle = document.querySelector(".titleSlide");
   const slideDesc = document.querySelector(".descSlide");
   const slideAction = document.querySelector(".actionSlide");
+  const slideImagenL = document.querySelector(".imgSlide");
 
   function renderSlide(index) {
     const slide = slides[index];
@@ -81,7 +82,8 @@ function startPage() {
       slideDesc.textContent = slide.description;
       slideAction.textContent = slide.actionText;
       slideAction.href = slide.link;
-      document.getElementById("imagePromo").src = slide.link;
+      slideImagenL.href = slide.link;
+      
 
       slideImage.classList.remove("fade-out");
       slideImage.classList.remove("slide-anim");
