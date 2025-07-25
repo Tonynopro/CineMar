@@ -1,138 +1,140 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Términos de Uso - Cinemar</title>
   <link rel="icon" href="../images/icons/favicon-32x32.png" type="image/png">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
-      color: #f5f5f5;
-    }
-
-    .title {
-      text-align: center;
-      padding: 30px 20px;
-      background-color: #1e1e1e;
-      border-bottom: 2px solid #00bcd4;
-    }
-
-    .title h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      color: #00bcd4;
-    }
-
-    .title p {
-      margin-top: 8px;
-      color: #ccc;
-    }
-
-    #faq-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      padding: 30px;
-    }
-
-    .boleto-card {
-      background-color: #1f1f1f;
-      border-left: 5px solid #ff5722;
-      border-radius: 12px;
-      padding: 20px;
-      width: 320px;
-      box-shadow: 0 0 10px rgba(0, 188, 212, 0.2);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .boleto-card h3 {
-      margin: 0;
-      color: #ff5722;
-    }
-
-    .boleto-card span {
-      color: #ccc;
-      font-size: 0.95rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #999;
-      font-size: 0.85rem;
-    }
-  </style>
+  <link rel="stylesheet" href="../css/extra.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
 </head>
+
 <body>
+
+  <header>
+    <div class="left">
+      <div class="logo">
+        <a href="/">
+          <img src="../images/icons/cinemarIcono.png" alt="CineMar">
+        </a>
+      </div>
+    </div>
+    <div class="center">
+      <div class="optHead"><a href="/">Inicio</a></div>
+      <div class="optHead"><a href="/promociones">Promociones</a></div>
+    </div>
+    <div class="right">
+      <div class="selectCine">
+        <label for="cine">Cine:</label>
+        <select id="cine">
+          <option>Santa Elena</option>
+        </select>
+      </div>
+      <div class="userIcon">
+        <div class="userIcon" id="userIcon">
+          <img src="../images/icons/userIcon.png" alt="Usuario">
+          <div class="userMenu" id="userMenu">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
 
   <section class="title">
     <h1>Términos de Uso</h1>
     <p>Lee esto antes de entrar al cine... o después, si ya estás adentro.</p>
   </section>
 
-  <section id="faq-container">
-    <div class="boleto-card">
+  <section class="info-container">
+    <div class="info-card">
       <h3>1. Entrada válida = boleto en mano</h3>
       <span>Sin boleto, solo puedes oler las palomitas desde la puerta. Sorry.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>2. Celulares prohibidos durante la función</h3>
       <span>Podrías invocar miradas asesinas... y no de la pantalla.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>3. Nada de comida externa</h3>
       <span>Tu lasaña huele delicioso, pero nuestras reglas huelen a política interna.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>4. Los asientos no son camas</h3>
       <span>Reclinar está bien. Roncar, no tanto. (A menos que sea una película de tres horas).</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>5. Si lloras, no hay reembolso</h3>
       <span>Puedes llorar tranquilo. Aquí todos te entendemos.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>6. Nada de gritar "¡Mátalo!" en comedias románticas</h3>
       <span>Aunque lo entendemos, no es socialmente aceptable. Todavía.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>7. No somos Tinder</h3>
       <span>No nos hacemos responsables si te enamoras del actor o actriz principal. Su WhatsApp no lo tenemos.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>8. Spoilers = crimen de guerra</h3>
       <span>Si spoileas, verás la peli otra vez narrada por alguien con voz de GPS.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>9. No hay final alternativo</h3>
       <span>No, no hay versión donde Jack sobrevive. Lo sentimos.</span>
     </div>
 
-    <div class="boleto-card">
+    <div class="info-card">
       <h3>10. Al entrar al cine, aceptás que:</h3>
       <span>- Las palomitas se acaban antes de que empiece la peli.<br>
-            - El tráiler te emociona más que la película.<br>
-            - El tipo de atrás pateará tu asiento.</span>
+        - El tráiler te emociona más que la película.<br>
+        - El tipo de atrás pateará tu asiento.</span>
     </div>
   </section>
 
   <footer>
-    &copy; 2025 Cinemar... ¿la magia del cine?
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Sobre CineMar</h4>
+        <ul>
+          <li><a href="/nuestraHistoria">Nuestra historia</a></li>
+          <li><a href="/#cartelera">Cartelera</a></li>
+          <li><a href="/promociones">Promociones</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Soporte</h4>
+        <ul>
+          <li><a href="/preguntasFrecuentes">Preguntas frecuentes</a></li>
+          <li><a href="/terminosUso">Términos de uso</a></li>
+          <li><a href="/politicasPrivacidad">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contáctanos</h4>
+        <ul>
+          <li><a href="tel:+5217831438595">Numero de contacto</a></li>
+          <li><a href="/encuentraTuCine">Encuentra tu cine</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 CineMar. Todos los derechos reservados.
+    </div>
   </footer>
 
+  <script src="../js/header.js"></script>
+
 </body>
+
 </html>

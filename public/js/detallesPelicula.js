@@ -20,7 +20,11 @@ async function loadMovieDetails() {
             } else if (imgSrc.endsWith('.png')) {
                 imgSrc = imgSrc.replace(/\.png$/, '.webp');
             }
-            document.getElementById('movie-image').src = `../images/peliculas/${imgSrc}`;  // Asegúrate de que la imagen esté en el path correcto
+            document.getElementById('movie-image').src = `../images/peliculas/${imgSrc}`;
+            document.getElementById('movie-image').onerror = function () {
+                this.onerror = null;
+                this.src = '../images/other/imageNotFound.webp';
+            }; 
             document.getElementById('movie-title').innerText = pelicula.titulo;
             document.getElementById('movie-description').innerText = pelicula.descripcion;
             document.getElementById('movie-rating').innerHTML = `<strong>Clasificación:</strong> ${pelicula.clasificacion}`;
@@ -46,6 +50,10 @@ async function loadMovieDetails() {
                     imgSrc = imgSrc.replace(/\.png$/, '.webp');
                 }
                 actorImg.src = `../images/actores/${imgSrc}`; // Asegúrate de que la imagen esté en el path correcto
+                actorImg.onerror = function () {
+                    this.onerror = null;
+                    this.src = '../images/other/imageNotFound.webp';
+                };
                 actorImg.alt = actor.nombre;
                 actorImg.loading = 'lazy'; // Cargar la imagen de forma diferida
                 actorDiv.appendChild(actorImg);
@@ -65,36 +73,36 @@ async function loadMovieDetails() {
             });
 
             // Mostrar selector de trailer si existe
-                if (pelicula.trailer) {
-                    const mediaSelector = document.getElementById("media-selector");
-                    const btnPoster = document.getElementById("btnPoster");
-                    const btnTrailer = document.getElementById("btnTrailer");
-                    const poster = document.getElementById("movie-image");
-                    const trailer = document.getElementById("movie-trailer");
-                    const trailerSource = document.getElementById("trailer-source");
+            if (pelicula.trailer) {
+                const mediaSelector = document.getElementById("media-selector");
+                const btnPoster = document.getElementById("btnPoster");
+                const btnTrailer = document.getElementById("btnTrailer");
+                const poster = document.getElementById("movie-image");
+                const trailer = document.getElementById("movie-trailer");
+                const trailerSource = document.getElementById("trailer-source");
 
-                    mediaSelector.style.display = "block";
-                    trailerSource.src = "../videos/trailers/" + pelicula.trailer; // <-- Aquí asumimos que es una URL válida tipo .mp4
+                mediaSelector.style.display = "block";
+                trailerSource.src = "../videos/trailers/" + pelicula.trailer; // <-- Aquí asumimos que es una URL válida tipo .mp4
 
-                    btnPoster.addEventListener("click", () => {
-                        poster.style.display = "block";
-                        trailer.pause(); // Detener
-                        trailer.currentTime = 0; // Reiniciar
-                        trailer.style.display = "none";
-                        btnPoster.classList.add("active");
-                        btnTrailer.classList.remove("active");
-                    });
+                btnPoster.addEventListener("click", () => {
+                    poster.style.display = "block";
+                    trailer.pause(); // Detener
+                    trailer.currentTime = 0; // Reiniciar
+                    trailer.style.display = "none";
+                    btnPoster.classList.add("active");
+                    btnTrailer.classList.remove("active");
+                });
 
-                    btnTrailer.addEventListener("click", () => {
-                        poster.style.display = "none";
-                        trailer.style.display = "block";
-                        btnTrailer.classList.add("active");
-                        btnPoster.classList.remove("active");
-                        trailer.load();
-                        trailer.play();
-                    });
-                }
-                
+                btnTrailer.addEventListener("click", () => {
+                    poster.style.display = "none";
+                    trailer.style.display = "block";
+                    btnTrailer.classList.add("active");
+                    btnPoster.classList.remove("active");
+                    trailer.load();
+                    trailer.play();
+                });
+            }
+
         } else {
             // Manejar el caso de error, si no se encontró la película
             console.error('Película no encontrada o error en la respuesta');

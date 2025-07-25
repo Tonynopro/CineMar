@@ -14,6 +14,11 @@ window.addEventListener('DOMContentLoaded', () => {
             src: "/sounds/DivaVirtual.mp3",
             letra: letraDivaVirtual(),
             tipo: "normal"
+        },
+        {
+            src: "/sounds/HowWeRoll.mp3",
+            letra: howWeRoll(),
+            tipo: "normal"
         }
     ];
 
@@ -37,8 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ];
 
 
-    // Decide si toca especial (1 en 1000000)
-    const azarEspecial = Math.floor(Math.random() * 1000000) + 1;
+    const azarEspecial = Math.floor(Math.random() * 1000) + 1;
 
     let cancionSeleccionada;
 
@@ -54,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const audio = new Audio(cancionSeleccionada.src);
     audio.loop = true;
     audio.play().catch(() => {
-        console.warn("🔇 Autoplay bloqueado.");
+        console.warn("Autoplay bloqueado.");
     });
 
     function actualizarContenido(cancion) {
@@ -390,5 +394,71 @@ Sencillo, tamo' trabajando por encima de sus expectativas
 De eso se trata!
 Algunos años luz ante que todos ustedes, siempre voy a vivir ahí
 No mires pa' mi galaxia`
+    }
+
+    function howWeRoll() {
+        return `Knignt Rydaz
+Robin, Lex
+¡Robin! (¡Yeah!), ¡Lex!
+¡El Orfanato!
+¡iDon!
+
+That's how we roll, we roll like this
+That's how we roll, we roll like this
+That's how we roll, we roll like this
+That's how we roll, we roll like this
+We roll like this
+
+Down blue jean y un White T
+Forra'o en tinta, full de bling bling
+Corro el bloque, we run the street
+Y tengo un coro 'e loco' que si toco 'tán pa' ti
+'Toy contrata'o con AT&T, tirame al BlackBerry
+Tengo noticias pa' ti, soy mejor que tú, chery
+Tengo tres mansiones, dos Porsche y un Bentley
+Millonario y me case con Jackie
+See Don Omar Live
+Get tickets as low as $269
+You might also like
+Galactic Blues
+Don Omar
+Danza Kuduro
+Don Omar & Lucenzo
+HUNTR/X - Golden (Romanized)
+Genius Romanizations
+
+That's how we roll, we roll like this
+That's how we roll, we roll like this
+That's how we roll, we roll like this
+That's how we roll, we roll like this
+
+Desaparece como crazy de mi sueño ese es Bob Marley
+Donde estoy quemando los auspicios que dio Harley
+Junto con Sony voy a anticipar tu futuro
+Aguántate cabrón que yo no voy a poner culo
+Tu comitiva que no gaste saliva, te escriba quien te escriba
+Mientras yo viva, mientras yo sea presidente
+Y esta industria tenga vida, no te vistas tú no vienes pa'ca arriba
+
+Yes, I keep it full tank, for the highway
+Yes, I keep it full plane, for the skyway
+It's just me and my gang, you're on our way
+It's no wonder why your hate, is up, in my face
+Yes, I keep it full tank, for the highway
+Yes, I keep it full plane, for the skyway
+It's just me and my gang, you're on our way
+It's no wonder why your hate, is up, in my face
+
+That's how we roll, we roll like this (¡D-O!)
+That's how we roll (El Orfanato), we roll like this (Lex, Robin)
+That's how we roll (You run the industry), we roll like this (We roll like this)
+That's how we roll (Te estamo' quemando la liga), we roll like this (Lex, Robin)
+We roll like this
+
+¡El Orfanato!
+¡iDon!
+Di-di-di
+Di-di-di, ¡D-O!
+No trate de compararse, tú estas hablando con él presidente`
     }
 });

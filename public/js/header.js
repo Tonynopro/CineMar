@@ -1,8 +1,17 @@
 const userIcon = document.getElementById("userIcon");
 const userMenu = document.getElementById("userMenu");
+const header = document.querySelector("header");
 
 let userLoggedIn = false;
 let userName = "";
+let checkingUser = false;
+
+let lastScrollTop = 0;
+let ticking = false;
+let initialLoadDone = false;
+
+// Desactivar comportamiento dinámico de header durante carga
+document.body.classList.add("init-loading");
 
 const renderUserMenu = () => {
     if (userLoggedIn) {
@@ -18,6 +27,9 @@ const renderUserMenu = () => {
 };
 
 const checkUserLogin = async () => {
+    if (checkingUser) return;
+    checkingUser = true;
+
     try {
         const response = await fetch("/cliente/info_usuario");
         const data = await response.json();
@@ -29,6 +41,7 @@ const checkUserLogin = async () => {
         userLoggedIn = false;
     } finally {
         renderUserMenu();
+        checkingUser = false;
     }
 };
 
@@ -46,43 +59,37 @@ document.addEventListener("click", (e) => {
     }
 });
 
-window.addEventListener("scroll", () => {
-    const header = document.querySelector("header");
+document.addEventListener("DOMContentLoaded", () => {
+    lastScrollTop = window.scrollY;
     header.classList.toggle("scrolled", window.scrollY > 20);
-});
 
-let lastScrollTop = 0;
-let ticking = false;
+    // Esperar un poco para dejar que se cargue contenido dinámico (como de fetchs, etc.)
+    setTimeout(() => {
+        initialLoadDone = true;
+        document.body.classList.remove("init-loading");
+    }, 600); // puedes ajustar este tiempo si tu contenido tarda más
+});
 
 window.addEventListener("scroll", () => {
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      const header = document.querySelector("header");
-      const currentScroll = window.scrollY;
-      const scrollDiff = currentScroll - lastScrollTop;
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            const currentScroll = window.scrollY;
+            const scrollDiff = currentScroll - lastScrollTop;
 
-      // Sombra al hacer scroll
-      header.classList.toggle("scrolled", currentScroll > 20);
+            header.classList.toggle("scrolled", currentScroll > 20);
 
-      // Contraer
-      if (scrollDiff > 10 && currentScroll > 100) {
-        header.classList.add("compact");
-      } else if (scrollDiff < -10) {
-        header.classList.remove("compact");
-      }
+            if (initialLoadDone) {
+                if (scrollDiff > 10 && currentScroll > 100) {
+                    header.classList.add("compact", "hidden");
+                } else if (scrollDiff < -10) {
+                    header.classList.remove("compact", "hidden");
+                }
+            }
 
-      // Ocultar al bajar, mostrar al subir
-      if (scrollDiff > 10 && currentScroll > 100) {
-        header.classList.add("hidden");
-      } else if (scrollDiff < -10) {
-        header.classList.remove("hidden");
-      }
+            lastScrollTop = Math.max(currentScroll, 0);
+            ticking = false;
+        });
 
-      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-      ticking = false;
-    });
-
-    ticking = true;
-  }
+        ticking = true;
+    }
 });
-

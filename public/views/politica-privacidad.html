@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Política de Privacidad</title>
   <link rel="icon" href="../images/icons/favicon-32x32.png" type="image/png">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #121212;
       color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
       min-height: 100vh;
     }
 
@@ -21,12 +21,17 @@
       text-align: left;
       background-color: #1e1e1e;
       padding: 40px;
+      margin: 40px auto;
       border-radius: 16px;
       box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
-      max-width: 800px;
-      width: 100%;
+      max-width: 900px;
+      width: 90%;
       line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
     }
+
 
     .logo h1 {
       color: #00bcd4;
@@ -66,24 +71,58 @@
       border-radius: 12px;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       letter-spacing: 0.5px;
     }
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,188,212,0.5);
+      box-shadow: 0 6px 16px rgba(0, 188, 212, 0.5);
       filter: brightness(1.1);
     }
   </style>
 </head>
+
 <body>
+
+  <header>
+    <div class="left">
+      <div class="logo">
+        <a href="/">
+          <img src="../images/icons/cinemarIcono.png" alt="CineMar">
+        </a>
+      </div>
+    </div>
+    <div class="center">
+      <div class="optHead"><a href="/">Inicio</a></div>
+      <div class="optHead"><a href="/promociones">Promociones</a></div>
+    </div>
+    <div class="right">
+      <div class="selectCine">
+        <label for="cine">Cine:</label>
+        <select id="cine">
+          <option>Santa Elena</option>
+        </select>
+      </div>
+      <div class="userIcon">
+        <div class="userIcon" id="userIcon">
+          <img src="../images/icons/userIcon.png" alt="Usuario">
+          <div class="userMenu" id="userMenu">
+            <!-- Este contenido se actualizará dinámicamente con JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
   <div class="container">
     <div class="logo">
       <h1>Política de Privacidad</h1>
     </div>
 
-    <p>Bienvenido a <strong>CineMar</strong>, donde los datos son más sagrados que las palomitas sin compartir. Si estás leyendo esto, probablemente:</p>
+    <p>Bienvenido a <strong>CineMar</strong>, donde los datos son más sagrados que las palomitas sin compartir. Si estás
+      leyendo esto, probablemente:</p>
     <ul>
       <li>Sos un fanático de lo sensual.</li>
       <li>Ella tiene una foto mía.</li>
@@ -95,18 +134,23 @@
     <p>No te afanamos nada (legalmente hablando). Pero sí recopilamos un par de cositas:</p>
     <ul>
       <li><strong>Tu nombre:</strong> para no llamarte “el wey de los tacos”.</li>
-      <li><strong>Tu email:</strong> para mandarte ofertas, memes y cadenas que dicen “si no reenviás esto, moriras mañana”.</li>
-      <li><strong>Tu número:</strong> por si ganás entradas. O por si tenemos que avisarte que perdiste (como siempre).</li>
+      <li><strong>Tu email:</strong> para mandarte ofertas, memes y cadenas que dicen “si no reenviás esto, moriras
+        mañana”.</li>
+      <li><strong>Tu número:</strong> por si ganás entradas. O por si tenemos que avisarte que perdiste (como siempre).
+      </li>
       <li><strong>Tu ubicación:</strong> si activás el GPS. Y si no, igual te ubicamos. Somos el FBI del cine.</li>
-      <li><strong>Tu historial:</strong> sabemos que viste “Emoji: La Película” y no lo vamos a dejar pasar tan fácil.</li>
+      <li><strong>Tu historial:</strong> sabemos que viste “Emoji: La Película” y no lo vamos a dejar pasar tan fácil.
+      </li>
     </ul>
 
     <h2>2. ¿Qué hacemos con eso?</h2>
-    <p>Lo que haría cualquier cine decente con tus datos: cuidarlos y usarlos para molestarte con estilo. Específicamente:</p>
+    <p>Lo que haría cualquier cine decente con tus datos: cuidarlos y usarlos para molestarte con estilo.
+      Específicamente:</p>
     <ul>
       <li>Te mandamos promociones, alertas de pelis, y quizás un par de memes de gatitos.</li>
       <li>Analizamos tus gustos. Si te gusta el drama… te mandamos al psicólogo.</li>
-      <li>Guardamos tus gustos para futuras recomendaciones. Aunque si sos fan de “Rápidos y Furiosos 12”, ya no hay esperanza.</li>
+      <li>Guardamos tus gustos para futuras recomendaciones. Aunque si sos fan de “Rápidos y Furiosos 12”, ya no hay
+        esperanza.</li>
     </ul>
 
     <h2>3. ¿Con quién compartimos tus datos?</h2>
@@ -129,14 +173,50 @@
     </ul>
 
     <h2>6. Seguridad nivel John Wick</h2>
-    <p>Tus datos están seguros. Tenemos firewalls, encriptado y un portero que le pega a los que intentan robar la base de datos.</p>
+    <p>Tus datos están seguros. Tenemos firewalls, encriptado y un portero que le pega a los que intentan robar la base
+      de datos.</p>
 
     <h2>7. Cambios</h2>
-    <p>Si un día nos pintó cambiar esta política, lo hacemos. Si no te enterás, culpa tuya por no venir a ver qué onda.</p>
+    <p>Si un día nos pintó cambiar esta política, lo hacemos. Si no te enterás, culpa tuya por no venir a ver qué onda.
+    </p>
 
     <h2>8. Si leíste hasta acá…</h2>
     <p>Mostrá este texto en la boletería: <strong>“Vengo de la Política de Privacidad, y exijo mi respeto”</strong>.</p>
     <p>Capaz te damos algo… o capaz solo te damos una palmadita en la espalda. Pero algo es algo.</p>
   </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Sobre CineMar</h4>
+        <ul>
+          <li><a href="/nuestraHistoria">Nuestra historia</a></li>
+          <li><a href="/#cartelera">Cartelera</a></li>
+          <li><a href="/promociones">Promociones</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Soporte</h4>
+        <ul>
+          <li><a href="/preguntasFrecuentes">Preguntas frecuentes</a></li>
+          <li><a href="/terminosUso">Términos de uso</a></li>
+          <li><a href="/politicasPrivacidad">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contáctanos</h4>
+        <ul>
+          <li><a href="tel:+5217831438595">Numero de contacto</a></li>
+          <li><a href="/encuentraTuCine">Encuentra tu cine</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 CineMar. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script src="../js/header.js"></script>
 </body>
+
 </html>
