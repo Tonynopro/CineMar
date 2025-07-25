@@ -42,11 +42,11 @@ window.addEventListener('DOMContentLoaded', () => {
     ];
 
 
-    const azarEspecial = Math.floor(Math.random() * 1000) + 1;
+    const azarEspecial = Math.floor(Math.random() * 100) + 1;
 
     let cancionSeleccionada;
 
-    if (azarEspecial === 1) {
+    if (azarEspecial <= 5) {
         // Elegir aleatoriamente uno de los dos especiales con 50% de probabilidad
         const indiceEspecial = Math.random() < 0.5 ? 0 : 1;
         cancionSeleccionada = cancionesEspeciales[indiceEspecial];
