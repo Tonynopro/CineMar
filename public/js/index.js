@@ -213,20 +213,40 @@ function startPage() {
 async function verificarServidor(intento = 1) {
   try {
     const response = await fetch("/peliculasCartelera");
-    if (!response.ok) throw new Error("Respuesta no OK");
+
+    // Si es 404, no hacemos nada grave
+    if (response.status === 404) {
+      console.warn("Endpoint no encontrado (404), pero no es error crítico.");
+      startPage();
+      return;
+    }
+
+    // Si es error de servidor
+    if (response.status >= 500) {
+      throw new Error(`Error servidor ${response.status}`);
+    }
+
+    if (!response.ok) {
+      throw new Error(`Respuesta no OK: ${response.status}`);
+    }
+
     const data = await response.json();
     if (!data.ok) throw new Error("Datos no válidos");
+
     console.log("Backend disponible.");
     startPage();
+
   } catch (error) {
-    console.warn(`⚠️ Intento ${intento} fallido: backend aún no disponible.`);
+    console.warn(`Intento ${intento} fallido: ${error.message}`);
+
     if (intento < 1) {
       setTimeout(() => verificarServidor(intento + 1), 1000);
     } else {
-      console.warn("🔄 Recargando página para reintentar backend...");
+      console.warn("Recargando página por error de servidor...");
       location.reload();
     }
   }
 }
+
 
 verificarServidor();
